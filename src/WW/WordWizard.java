@@ -20,6 +20,7 @@ public class WordWizard extends JFrame
 
     }
 
+    // Main
     public static void main (String[] args)
     {
         new WordWizard();
