@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class WordWizard extends JFrame 
 {
-
+	// Constructor
     public WordWizard()
     {
         add(new GamePanel());
