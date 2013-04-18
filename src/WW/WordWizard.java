@@ -5,9 +5,9 @@ import javax.swing.JPanel;
 import javax.swing.*;
 import java.awt.*;
 
-public class WordWizard extends JFrame 
+public class WordWizard extends JFrame
 {
-	// Constructor
+    // Constructor
     public WordWizard()
     {
         add(new GamePanel());
@@ -17,9 +17,7 @@ public class WordWizard extends JFrame
         setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);
-
     }
-
     // Main
     public static void main (String[] args)
     {
