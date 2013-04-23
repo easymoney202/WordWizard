@@ -31,6 +31,8 @@ public class Room {
         doorlist = new ArrayList<Door>();
         if(entype != 0)
             anenemy = new Enemy(entype);
+        
+        roomMap = new Tilemap();
     }
     /**
      * Getter for the room's Enemy
@@ -67,6 +69,6 @@ public class Room {
      */
     public void paint(Graphics g)
     {
-    	
+    	roomMap.paint(g);
     }
 }

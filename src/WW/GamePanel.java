@@ -41,6 +41,8 @@ public class GamePanel extends JPanel
             at.rotate(Math.toRadians(deg));
             g2.draw(at.createTransformedShape(e));
           }
+    	
+    	WordWizard.Instance.paint(g);
     
     }
 }
