@@ -35,6 +35,14 @@ public class Room {
         roomMap = new Tilemap();
     }
     /**
+     * Gets the tilemap object
+     * @return roomMap tilemap object
+     */
+    public Tilemap GetTilemap()
+    {
+    	return roomMap;
+    }
+    /**
      * Getter for the room's Enemy
      * @return		Enemy -- the room's enemy.
      */

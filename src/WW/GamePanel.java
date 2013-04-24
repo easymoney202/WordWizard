@@ -2,21 +2,38 @@ package WW;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.AffineTransform;
 
-public class GamePanel extends JPanel
+public class GamePanel extends JPanel implements ActionListener
 {
     private static final long serialVersionUID = 1L;
+    public static GamePanel Instance;
+    private static boolean m_initialized = false;
 
     public GamePanel()
     {
+    	addKeyListener(new InputAdapter());
+    	setFocusable(true);
+    	setBackground(Color.BLACK);
+    	setDoubleBuffered(true);
     	// Test
+    	if (m_initialized == false)
+    	{
+    		Instance = this;
+    		m_initialized = true;
+    	}
+    }
+    
+    public void actionPerformed(ActionEvent e){
+    	repaint();
     }
     
     public void paint(Graphics g)
     {
     	super.paint(g);
+    	g.clearRect(0, 0, WordWizard.WINDOW_WIDTH, WordWizard.WINDOW_HEIGHT);
     	
     	Graphics2D g2 = (Graphics2D) g;
     	
@@ -27,23 +44,27 @@ public class GamePanel extends JPanel
     	
     	g2.setRenderingHints(rh);
     	
-    	Dimension size = getSize();
-    	double w = size.getWidth();
-    	double h = size.getHeight();
+    	if (WordWizard.Instance != null)
+    		WordWizard.Instance.paint(g);
     	
-    	Ellipse2D e = new Ellipse2D.Double(0, 0, 80, 130);
-    	g2.setStroke(new BasicStroke(1));
-    	g2.setColor(Color.gray);
-    	
-    	for (double deg = 0; deg < 360; deg += 5) {
-            AffineTransform at =
-                AffineTransform.getTranslateInstance(w / 2, h / 2);
-            at.rotate(Math.toRadians(deg));
-            g2.draw(at.createTransformedShape(e));
-          }
-    	
-    	WordWizard.Instance.paint(g);
+    	g.dispose();
+    }
     
+    /**
+     * Passes input to the corresponding classes
+     * @author diegopinatem
+     */
+    private class InputAdapter extends KeyAdapter
+    {
+    	public void keyPressed(KeyEvent e)
+    	{
+    		WordWizard.Instance.GetPlayer().keyPressed(e);
+    	}
+    	
+    	public void keyReleased(KeyEvent e)
+    	{
+    		WordWizard.Instance.GetPlayer().keyReleased(e);
+    	}
     }
 }
 

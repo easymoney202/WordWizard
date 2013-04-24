@@ -168,7 +168,7 @@ public class GameMain {
             } //end else
         }//end while !enemdead
         //check for player death
-        if(thehero.playerHealth()<=0){
+        if(thehero.GetHealth()<=0){
             System.out.println("But the future refused to change...");
         }
         //otherwise, give the player a pat on the back
