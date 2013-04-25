@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-import WW.Dungeon.Direction;
-
 /**
  * This will be the main class for the game
  * 
@@ -70,6 +68,7 @@ public class GameMain {
 			System.out.println("BYE");
 			System.exit(0);
 		}
+		scan.close();
 	}// end dungeonStorm
 
 	/**
@@ -178,7 +177,7 @@ public class GameMain {
 				System.out.println(":");
 				ansindex = s.nextInt();
 			} // end while ansindex
-
+			s.close();
 			// Check if the answer is right and deal damage to enemy if so
 			if (gamelist.get(ansindex - 1).equals(answer)) {
 				System.out.print("Correct! You dealt the ");

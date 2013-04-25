@@ -1,13 +1,13 @@
 package WW;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.Timer;
-import javax.swing.ImageIcon;
-import javax.swing.*;
 import java.awt.*;
 
 public class WordWizard extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2635031231518739273L;
 	public static Boolean m_running = true;
 	public static GamePanel m_gamePanel;
 	public static Room m_currentRoom;

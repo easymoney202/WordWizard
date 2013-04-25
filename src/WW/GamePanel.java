@@ -3,8 +3,6 @@ package WW;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.AffineTransform;
 
 public class GamePanel extends JPanel implements ActionListener
 {
