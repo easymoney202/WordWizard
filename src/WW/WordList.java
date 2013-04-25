@@ -31,20 +31,20 @@ public class WordList {
      */
     public String getRandomWord() {
         Random rnd = new Random();
-        int z = rnd.nextInt(thelist.size());
+        Integer z = rnd.nextInt(thelist.size());
         return thelist.get(z).getWord();
     }
     /** getProblem returns numQs+1 words in an ArrayList, the first being the word to be matched,
      *  the second the correct answer, and the rest incorrect answers
      * 
-     * @param numQs		int for how many total answers desired
-     * @param type		int for whether synonyms (if ==1) or antonyms
+     * @param numQs		Integer for how many total answers desired
+     * @param type		Integer for whether synonyms (if ==1) or antonyms
      * @return			ArrayList<String> with word, correct answer, then incorrect answers
      */
-    public ArrayList<String> getProblem(int numQs, int type) {
+    public ArrayList<String> getProblem(Integer numQs, Integer type) {
         Random rnd = new Random();
         //Get a random number for the index of a word in thelist
-        int z = rnd.nextInt(thelist.size());
+        Integer z = rnd.nextInt(thelist.size());
         String word = thelist.get(z).getWord();
         ArrayList<String> matchset; //all synonyms/antonyms to provide comparison when randoms are chosen
         ArrayList<String> qset = new ArrayList<String>();  //Make an array to return
@@ -59,7 +59,7 @@ public class WordList {
         } //end else
         qset.add(word); //add word to the beginning of the list
         qset.add(answer); //add answer right afterwards
-        int i = 0;
+        Integer i = 0;
         /* Get a random word, compare it to all correct answers */
         while(i<numQs-1) {
             String wrong = getRandomWord(); 
@@ -83,7 +83,7 @@ public class WordList {
         /*Take a word from the synonyms array, then add it to thelist with all of its synonyms and antonyms
          *then add it back to the temp list, and repeat for the next entry. 
          */
-        for(int i=0; i<syns.size(); i++) {
+        for(Integer i=0; i<syns.size(); i++) {
             tempstr = temparr1.remove(0);
             addToList(tempstr, temparr1, temparr2);
             temparr1.add(tempstr);
@@ -91,7 +91,7 @@ public class WordList {
         /* Do the same as above, just with the antonyms.  Only this time, the antonyms are synonyms of each other
          * so temparr2 is used for synonyms and temparr1 for antonyms 
          */
-        for(int i=0; i<ants.size(); i++) {
+        for(Integer i=0; i<ants.size(); i++) {
             tempstr = temparr2.remove(0);
             addToList(tempstr, temparr2, temparr1);
             temparr2.add(tempstr);

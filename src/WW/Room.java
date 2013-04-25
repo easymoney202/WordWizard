@@ -1,6 +1,4 @@
 package WW;
-import java.util.ArrayList;
-import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -11,36 +9,55 @@ import java.awt.*;
  */
 public class Room {
 
-    int roomid;
+    Integer roomid;
     Enemy anenemy;
-    ArrayList<Door> doorlist;
-    Tilemap roomMap;
-    //Item anitem;
-    //Book abook;
-
+    Boolean m_init = false;
+	Integer player_startX, player_startY;
+	
+	RoomObject tiles[][];
+    
+    public static Integer TILE_SIZE = 32;	// Tile size in pixels
+	public static Integer MAP_X_SIZE = 12;	// X Grid size
+	public static Integer MAP_Y_SIZE = 12;	// Y Grid size
+	public static Integer OFFSET_X = 50;	// Offset for screen X
+	public static Integer OFFSET_Y = 40;	// Offset for screen Y
 
     /**
-     * Constructor with boolean flags for room contents
+     * Constructor with Boolean flags for room contents
      * @param id			integer -- room id
-     * @param hasenemy		boolean -- whether room contains enemy
-     * @param hasitem		boolean -- whether room contains item
-     * @param hasbook		boolean -- whether room contains book
+     * @param enemy			enemy
      */
-    public Room(int id, int entype, boolean hasitem, boolean hasbook) {
+    public Room(Integer id, Enemy en) {
         roomid = id;
-        doorlist = new ArrayList<Door>();
-        if(entype != 0)
-            anenemy = new Enemy(entype);
+        anenemy = en;
+        tiles = new RoomObject[][] {
+    			{new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall()},
+    			{new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall(), new Ground(), new Ground(), new Bookcase(), new Bookcase(), new Ground(), new Wall()},
+    			{new Wall(), new Ground(), new Spawn(), new Ground(), new Ground(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall()},
+    			{new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall()},
+    			{new Wall(), new Ground(), new Ground(), new Wall(), new Wall(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall()},
+    			{new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Bookcase(), new Wall()},
+    			{new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Bookcase(), new Wall()},
+    			{new Wall(), new Ground(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Bookcase(), new Wall()},
+    			{new Wall(), new Ground(), new Wall(), new Wall(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall()},
+    			{new Wall(), new Ground(), new Ground(), new Ground(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall()},
+    			{new Wall(), new Bookcase(), new Bookcase(), new Bookcase(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall()},
+    			{new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall()}
+    	};
         
-        roomMap = new Tilemap();
-    }
-    /**
-     * Gets the tilemap object
-     * @return roomMap tilemap object
-     */
-    public Tilemap GetTilemap()
-    {
-    	return roomMap;
+		// Get extra info from tile array like player starting position
+		for (Integer i = 0; i < MAP_X_SIZE; i++)
+		{
+			for (Integer j = 0; j < MAP_Y_SIZE; j++)
+			{
+				if (tiles[j][i] instanceof Spawn)
+				{
+					player_startX = i;
+					player_startY = j;
+				}
+			}
+		}
+		m_init = true;
     }
     /**
      * Getter for the room's Enemy
@@ -51,32 +68,45 @@ public class Room {
     }
     /**
      * Getter for the room's ID number
-     * @return		int -- the room's ID
+     * @return		Integer -- the room's ID
      */
-    public int getRoomID() {
+    public Integer getRoomID() {
         return roomid;
-    }
-    /**
-     * Adds a door object to the doorlist ArrayList of the Room
-     * @param d		Door to be added
-     */
-    public void addDoors(Door d){
-        doorlist.add(d);
-    }
-    /**
-     * Getter for the list of doors of the room
-     * @return		ArrayList<Door> for all doors leading out of the room
-     */
-    public ArrayList<Door> getDoors(){
-        return doorlist;
     }
     
     /**
-     * Paints the room to the game screen
-     * @param		Graphics screen to be painted
-     */
-    public void paint(Graphics g)
-    {
-    	roomMap.paint(g);
-    }
+	* Returns the beginning X pos for the player
+	*/
+	public Integer GetPlayerStartX()
+	{
+		System.out.println("Player start X requested: " + player_startX);
+		return player_startX;
+	}
+	
+	/**
+	* Returns the beginning Y pos for the player
+	*/ 
+	public Integer GetPlayerStartY()
+	{
+		System.out.println("Player start Y requested: " + player_startY);
+		return player_startY;
+	}
+	/**
+	 * Paints the tilemap
+	 * @param g
+	 */
+	public void paint(Graphics g)
+	{
+		if (m_init)
+		{
+			Graphics2D g2d = (Graphics2D) g;
+			for (Integer i = 0; i < MAP_X_SIZE; i++)
+			{
+				for (Integer j = 0; j < MAP_Y_SIZE; j++)
+				{
+					tiles[j][i].render(g2d, OFFSET_X + i * TILE_SIZE, OFFSET_Y + j * TILE_SIZE);
+				}
+			}
+		}
+	}
 }

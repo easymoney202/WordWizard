@@ -10,7 +10,7 @@ public class GamePanel extends JPanel implements ActionListener
 {
     private static final long serialVersionUID = 1L;
     public static GamePanel Instance;
-    private static boolean m_initialized = false;
+    private static Boolean m_initialized = false;
 
     public GamePanel()
     {
@@ -47,7 +47,7 @@ public class GamePanel extends JPanel implements ActionListener
     	if (WordWizard.Instance != null)
     		WordWizard.Instance.paint(g);
     	
-    	g.dispose();
+    	//g.dispose();
     }
     
     /**

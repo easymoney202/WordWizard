@@ -36,7 +36,7 @@ public class Words {
      */
     public String getRandomSyn() {
         Random rnd = new Random();
-        int z = rnd.nextInt(syns.size());
+        Integer z = rnd.nextInt(syns.size());
         return syns.get(z);
     }
     /** Getter for random antonym
@@ -45,7 +45,7 @@ public class Words {
      */
     public String getRandomAnt() {
         Random rnd = new Random();
-        int z = rnd.nextInt(ants.size());
+        Integer z = rnd.nextInt(ants.size());
         return ants.get(z);
     }
     /** Getter for all synonyms
