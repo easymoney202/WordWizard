@@ -16,7 +16,7 @@ public class Room {
     ArrayList<Door> doorlist;
     Tilemap roomMap;
     //Item anitem;
-    //Book abook;
+    Book abook;
 
 
     /**
@@ -24,9 +24,8 @@ public class Room {
      * @param id			integer -- room id
      * @param hasenemy		boolean -- whether room contains enemy
      * @param hasitem		boolean -- whether room contains item
-     * @param hasbook		boolean -- whether room contains book
      */
-    public Room(int id, int entype, boolean hasitem, boolean hasbook) {
+    public Room(int id, int entype, boolean hasitem) {
         roomid = id;
         doorlist = new ArrayList<Door>();
         if(entype != 0)
@@ -64,6 +63,13 @@ public class Room {
         doorlist.add(d);
     }
     /**
+     * Setter for the abook variable.  Adds a book to the room.
+     * @param b		Book to be added
+     */
+    public void addBook(Book b) {
+    	abook = b;
+    }
+    /**
      * Getter for the list of doors of the room
      * @return		ArrayList<Door> for all doors leading out of the room
      */
@@ -79,4 +85,11 @@ public class Room {
     {
     	roomMap.paint(g);
     }
+	/**
+	 * Getter for a book object
+	 * @return		Book -- the book in the room (if it exists)
+	 */
+	public Book getBook() {
+		return abook;
+	}
 }

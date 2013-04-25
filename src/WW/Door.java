@@ -1,3 +1,4 @@
+package WW;
 /**
  * Door class represents a door
  * @author Team DMZ

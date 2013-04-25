@@ -146,9 +146,6 @@ public class WordList {
 		Nuance
 		+ Graduation, Shading
 		- <None>
-		Bolster
-		+ Assist, brace, buttress
-		- hinder, hamper, obstruct
 		Abrogate
 		+ abolish, dissolve, nullify
 		- establish, institute, ratify

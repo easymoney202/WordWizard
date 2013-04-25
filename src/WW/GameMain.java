@@ -5,8 +5,8 @@ import java.util.Scanner;
 
 /**This will be the main class for the game
  * 
- * @author Zac, Matt, Diego
- * @version Alpha
+ * @author Team DMZ
+ * @version Beta
  *
  */
 public class GameMain {
@@ -21,7 +21,7 @@ public class GameMain {
         thelist = new WordList();
         thelist.init();
         hero = new Player();
-        maze = new Dungeon();
+        maze = new Dungeon(thelist);
         maze.sampleDungeon();
     }
     /**
@@ -35,9 +35,9 @@ public class GameMain {
         Scanner scan = new Scanner(System.in);
         while(!isdone) { //While the player has not yet quit,
 
-            processRoom(); //process the room
+            isdone = processRoom(); //process the room
 
-            while(!hasmoved) { //While the player hasn't moved, prompt them to move
+            while(!hasmoved && !isdone) { //While the player hasn't moved, prompt them to move
                 System.out.println("Travel to another room?");
                 System.out.println("0 goes North, 1 goes East, 2 goes South, and 3 goes West  (-1 quits)");
                 int dir = scan.nextInt();
@@ -58,7 +58,7 @@ public class GameMain {
      * processRoom determines what's going on in a room before the player has a chance to interact with it
      * It also contains the call to battleTime to fight an enemy.
      */
-    public void processRoom() {
+    public boolean processRoom() {
         System.out.print("You have entered the room.  The number ");
         System.out.print(maze.getCurrentRoom());
         System.out.println(" is written on one of the walls");
@@ -66,16 +66,28 @@ public class GameMain {
         //Get objects for this room and the room's enemy
         Room thisroom = maze.getRoom(maze.getCurrentRoom());	
         Enemy roomenemy = thisroom.roomEnemy();
+        Book roombook;
         //If an enemy is there, fight it.
-        if(roomenemy!=null) {
+        if(roomenemy!=null && roomenemy.getHealth() > 0) {
             System.out.println("You are not alone in this room...");
             System.out.println("A figure notices you, and charges!");
             boolean success = battleTime(hero, roomenemy, 1);
         } //end if roomenemy
+		if(hero.GetHealth()<=0) //Player is dead
+			return true;
         System.out.println("Alone in the room, you take a look around");
         /*
          * This would be where you mention chests or books
          */
+        if(thisroom.getBook() != null) {
+        	System.out.println("You see a book on the bookshelf, and decide to read it");
+        	ArrayList<ArrayList<String>> temp = maze.readBook(thisroom);
+        	System.out.println("The book reads:");
+        	System.out.print("For the word: ");
+        	System.out.println(temp.get(0).toString());
+        	System.out.println("Synonyms are: " + temp.get(1).toString());
+        	System.out.println("Antonyms are: " + temp.get(2).toString());
+        }
         //After this, check for which doors exist that lead out of the room
         ArrayList<Door> roomdoors = thisroom.getDoors();
         if(roomdoors.size() > 0) {
@@ -95,7 +107,7 @@ public class GameMain {
                 System.out.println(" written on it");
             }
         }
-
+        return false;
     }
     /**
      * Method runs through a "combat" against a specified enemy type

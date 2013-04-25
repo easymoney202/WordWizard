@@ -9,8 +9,8 @@ import java.util.Random;
  * Ghoul (Medium, high damage, few choices)
  * Word Wizard(Hard, medium damage, but many choices)
  * 
- * @author Zac, Matt, Diego
- * @version Alpha
+ * @author Team DMZ
+ * @version Beta
  *
  */
 public class Enemy {
@@ -107,6 +107,10 @@ public class Enemy {
      */
     public String enemyName() {
         return name;
+    }
+    
+    public int getHealth() {
+    	return health;
     }
 
 

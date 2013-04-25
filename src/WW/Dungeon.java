@@ -28,7 +28,7 @@ public class Dungeon {
 		thelist = wl;
 		numrooms = 0;
 		//This adds a starter room
-		maze.add(new Room(numrooms, 0, false, false));
+		maze.add(new Room(numrooms, 0, false));
 		currentroom = 0; //start in this room
 		numrooms++;
 	}
@@ -57,9 +57,8 @@ public class Dungeon {
 		int enemy = rand.nextInt(4); //note: 0 means no enemy, boss will not show up
 		//not implemented yet, so these stay out
 		boolean item = false;
-		boolean book = false;
 		
-		maze.add(new Room(numrooms, enemy, item, book));
+		maze.add(new Room(numrooms, enemy, item));
 		numrooms++;
 	}
 	/**
@@ -117,8 +116,9 @@ public class Dungeon {
 		int EAST = 1;
 		int SOUTH = 2;
 		int WEST = 3;
+		int NUMROOMS = 10;
 		//Add 10 rooms
-		for(int i=0; i<10; i++)
+		for(int i=0; i<NUMROOMS; i++)
 			addRoom();
 		//Add the doors between the rooms
 		addDoor(0, 1, WEST, EAST);
@@ -136,14 +136,62 @@ public class Dungeon {
 		addDoor(8, 10, WEST, EAST);
 		
 		//Add some books to the dungeon
-		
+		/*Bolster
+		+ Assist, brace, buttress
+		- hinder, hamper, obstruct */
+		String tempstr = "Bolster";
+		ArrayList<String> tempsyns = new ArrayList<String>();
+		ArrayList<String> tempants = new ArrayList<String>();
+		tempsyns.add("Assist");
+		tempsyns.add("Brace");
+		tempsyns.add("Buttress");
+		tempants.add("Hinder");
+		tempants.add("Hamper");
+		tempants.add("Obstruct");
+		books.add(new Book(tempstr, tempsyns, tempants));
+		tempsyns.add(tempstr);
+		//Clone of cascadeAdd, just this time adding to books, not WordList
+		for(int i=0; i<tempsyns.size(); i++) {
+			tempstr = tempsyns.remove(0);
+			books.add(new Book(tempstr, tempsyns, tempants));
+			tempsyns.add(tempstr);
+		} //end for
+		/* Do the same as above, just with the antonyms. 
+		 *   
+		 */
+		for(int i=0; i<tempants.size(); i++) {
+			tempstr = tempants.remove(0);
+			books.add(new Book(tempstr, tempants, tempsyns));
+			tempants.add(tempstr);
+		} //end for
+		//Assign the books to random rooms
+		for(int i=0; i<books.size(); i++) {
+			Random rand = new Random();
+			int z = rand.nextInt(NUMROOMS);
+			while(maze.get(z).getBook()!=null) {
+				z = rand.nextInt(NUMROOMS);
+			}
+			maze.get(z).addBook(books.get(i));
+		}		
 	}
+	
 	/**
 	 * Getter for the dungeon's wordlist
 	 * @return 			WordList -- the dungeon's list of words
 	 */
 	public WordList getList() {
 		return thelist;
+	}
+	/**
+	 * Returns if the specified room has a book or not.
+	 * @param r			Room -- the room to be checked for a book
+	 * @return			boolean whether the room has book or not
+	 */
+	public boolean hasBook(Room r) {
+		if(r.getBook()!=null)
+			return true;
+		else
+			return false;
 	}
 	/**
 	 * Reads a book from a given room, adding its words to the dungeon's WordList

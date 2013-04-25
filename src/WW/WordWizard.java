@@ -35,7 +35,7 @@ public class WordWizard extends JFrame
         setVisible(true);
         setResizable(false);
         
-        m_currentRoom = new Room(0, 0, false, false);
+        m_currentRoom = new Room(0, 0, false);
         m_player = new Player();
         m_player.SetPosition(m_currentRoom.GetTilemap().GetPlayerStartX(), m_currentRoom.GetTilemap().GetPlayerStartY());
         m_statusMsg = "Status: None";
