@@ -4,20 +4,31 @@ import javax.swing.JFrame;
 import java.awt.*;
 
 public class WordWizard extends JFrame {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2635031231518739273L;
 	public static Boolean m_running = true;
 	public static GamePanel m_gamePanel;
 	public static Room m_currentRoom;
 	public static Player m_player;
-	public static String m_statusMsg;
 	public static Dungeon m_dungeon;
 	public static WordWizard Instance = null;
 	public static Integer WINDOW_WIDTH = 640;
-	public static Integer WINDOW_HEIGHT = 480;
+	public static Integer WINDOW_HEIGHT = 500;
 	public static Integer NUM_ROOMS = 10;
+	
+	ExploreScene 	m_exploreScene;
+	MenuScene 		m_menuScene;
+	BattleScene 	m_battleScene;
+	
+	WordList		m_wordList;
+	
+	public enum GAME_STATE
+	{
+		Menu,
+		Explore,
+		Battle
+	};
+	
+	public static GAME_STATE m_gameState = GAME_STATE.Menu;
 
 	/**
 	 * Word wizard constructor
@@ -33,52 +44,51 @@ public class WordWizard extends JFrame {
 		setLocationRelativeTo(null);
 		setVisible(true);
 		setResizable(false);
+		
+		m_wordList = new WordList();
+		m_wordList.init();
 
 		m_currentRoom = m_dungeon.generate(NUM_ROOMS);
 		m_player = new Player(m_currentRoom);
 		m_player.SetPosition(m_dungeon.getCurrentRoom().GetPlayerStartX(),
 				m_dungeon.getCurrentRoom().GetPlayerStartY());
-		m_statusMsg = "Status: None";
+		m_player.name = "Young Wizard";
+		
+		m_menuScene = new MenuScene();
+		m_exploreScene = new ExploreScene(m_player, m_currentRoom, m_dungeon, m_wordList);
 
 		System.out.println(Instance);
+		
+		GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
+		
+		// Testing battle code
+		//StartBattleScene(new Enemy("Images/player.bmp", m_currentRoom, 1), 0);
 
 		GameLoop();
-	}
-
-	/**
-	 * Draws the heads up display of the game
-	 * 
-	 * @param g
-	 */
-	public void DrawHUD(Graphics g) {
-		Graphics2D g2 = (Graphics2D) g;
-		Font font = new Font("ARIAL", Font.PLAIN, 15);
-		g2.setFont(font);
-		g2.setColor(Color.BLACK);
-		g2.drawString("Word Wizard", 20, 20);
-		g2.setColor(Color.RED);
-		if (m_player != null) {
-			g2.drawString("Health: " + m_player.getHealth(), 500, 20);
-			g2.setColor(Color.BLACK);
-			g2.drawString("Level: " + m_player.GetLevel(), 500, 40);
-			g2.drawString(m_statusMsg, 20, 450);
-		}
 	}
 
 	/**
 	 * Paints the game. This gets called from the GamePanel paint method
 	 */
 	public void paint(Graphics g) {
-
-		GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
-
-		if (m_currentRoom != null) {
-			m_currentRoom.paint(g);
+		switch (m_gameState)
+		{
+		case Menu:
+			if (m_menuScene != null)
+				m_menuScene.paint(g);
+			break;
+		case Explore:
+			if (m_exploreScene != null)
+				m_exploreScene.paint(g);
+			break;
+		case Battle:
+			if (m_battleScene != null)
+				m_battleScene.paint(g);
+			break;
+		default:
+			// Shouldn't happen
+			break;
 		}
-		if (m_player != null) {
-			m_player.render(g, m_player.m_x * Room.TILE_SIZE + Room.OFFSET_X, m_player.m_y * Room.TILE_SIZE + Room.OFFSET_Y);
-		}
-		DrawHUD(g);
 	}
 
 	/**
@@ -104,29 +114,92 @@ public class WordWizard extends JFrame {
 	 */
 	public void GameLoop() {
 		while (m_running) {
+			switch (m_gameState)
+			{
+			case Menu:
+				if (m_menuScene != null)
+					m_menuScene.Update();
+				break;
+			case Explore:
+				if (m_exploreScene != null)
+					m_exploreScene.Update();
+				break;
+			case Battle:
+				if (m_battleScene != null)
+					m_battleScene.Update();
+				break;
+			default:
+				break;
+			}
+			
 			m_gamePanel.repaint();
 		}
 	}
-
+	
 	/**
-	 * Sets a status message in the HUD
-	 * 
-	 * @param msg
+	 * Returns the explore scene
+	 * @return
 	 */
-	public void SetStatusMsg(String msg) {
-		m_statusMsg = msg;
+	public ExploreScene GetExploreScene()
+	{
+		return m_exploreScene;
 	}
-
+	
 	/**
-	 * Resets the status msg
+	 * Gets the current GameScene being displayed
+	 * @return
 	 */
-	public void ResetStatusMsg() {
-		m_statusMsg = "Status: None";
+	public GameScene GetCurrentScene()
+	{
+		switch (m_gameState)
+		{
+		case Menu:
+			if (m_menuScene != null)
+				return m_menuScene;
+			break;
+		case Explore:
+			if (m_exploreScene != null)
+				return m_exploreScene;
+			break;
+		case Battle:
+			if (m_battleScene != null)
+				return m_battleScene;
+			break;
+		default:
+			return null;
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Sets the game state of the game
+	 * @param state
+	 */
+	public void SetGameState(GAME_STATE state)
+	{
+		m_gameState = state;
+		if (state == GAME_STATE.Explore)
+		{
+			m_exploreScene.ResetBattleTime();
+		}
+	}
+	
+	/**
+	 * This will be used to create a battle from the explore scene
+	 * by passing the arguments of the room and what monster dwells
+	 * in it
+	 * @param params
+	 */
+	public void StartBattleScene(Enemy enemy, int type)
+	{
+		// Create the new battle scene object
+		m_battleScene = new BattleScene(m_player, enemy, m_wordList, type);
+		m_gameState = GAME_STATE.Battle;
 	}
 
 	/**
 	 * Program start
-	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {

@@ -13,10 +13,50 @@ import java.util.Random;
  * 
  */
 
-public abstract class Enemy extends Entity {
+public class Enemy extends Entity {
+	
+	// For random enemy name generation
+	private static String _adj[] = {"Mighty", "Hateful", "Supreme", "Brutal", "Wise", "Evil", "Benighted", "Corrupted"};
+	private static String _enType[] = {"Apprentice", "Wizard", "Ghoul", "Slime", "Goblin", "Dragon", "Elf"};
 
-	public Enemy(String imageloc, Room room) {
+	
+	/**
+	 * Generates a random enemy with a random name of a specific level
+	 * @param imageloc
+	 * @param room
+	 */
+	public Enemy(String imageloc, Room room, int _lvl) {
+		// TODO: Change the image depending on the _enType selected
 		super(imageloc, room);
+		
+		Random rand = new Random();
+		int adj_id = rand.nextInt(_adj.length);
+		int enType_id = rand.nextInt(_enType.length);
+		name = _adj[adj_id] + " " + _enType[enType_id];
+		
+		level = _lvl;
+		health = 30 * _lvl;
+		dmgmin = (int)(10 * _lvl * 0.8);
+		dmgmax = (int)(30 * _lvl * 0.7);
+	}
+	
+	/**
+	 * Generates an enemy with a specific name, level, image, etc
+	 * @param imageloc
+	 * @param room
+	 * @param _name
+	 * @param _lvl
+	 * @param _health
+	 * @param _dmin
+	 * @param _dmax
+	 */
+	public Enemy(String imageloc, Room room, String _name, int _lvl, int _health, int _dmin, int _dmax){
+		super(imageloc,room);
+		name = _name;
+		level = _lvl;
+		health = _health;
+		dmgmin = _dmin;
+		dmgmax = _dmax;
 	}
 	
 	Integer words;
