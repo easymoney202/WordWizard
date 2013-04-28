@@ -34,7 +34,7 @@ public class WordList {
 	 */
 	public void addToKnown(String word, ArrayList<String> syns,
 			ArrayList<String> ants) {
-		Words temp = new Words(word, syns, ants)
+		Words temp = new Words(word, syns, ants);
 		if(!knownwords.contains(temp)) {
 			knownwords.add(temp);
 			for (String s : syns)
