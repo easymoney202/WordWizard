@@ -55,10 +55,18 @@ public class Player extends Entity {
     public void Interact()
     {
     	// Interact with shelves
-    	if (myroom.tiles[m_y][m_x + 1] instanceof Bookcase || myroom.tiles[m_y][m_x -1] instanceof Bookcase || myroom.tiles[m_y+1][m_x] instanceof Bookcase || myroom.tiles[m_y-1][m_x] instanceof Bookcase)
-    	{
-    		WordWizard.Instance.GetExploreScene().SetStatusMsg("Status: The bookshelf does not contain any magic manuscripts.");
-    	}
+    	if (myroom.tiles[m_y][m_x + 1] instanceof Bookcase )
+    		WordWizard.Instance.GetExploreScene().SetStatusMsg(((Bookcase) myroom.tiles[m_y][m_x + 1]).getBookString());
+
+    	else if (myroom.tiles[m_y][m_x -1] instanceof Bookcase) 
+    		WordWizard.Instance.GetExploreScene().SetStatusMsg(((Bookcase) myroom.tiles[m_y][m_x - 1]).getBookString());
+
+    	else if (myroom.tiles[m_y+1][m_x] instanceof Bookcase)
+    		WordWizard.Instance.GetExploreScene().SetStatusMsg(((Bookcase) myroom.tiles[m_y+1][m_x]).getBookString());
+
+    	else if (myroom.tiles[m_y-1][m_x] instanceof Bookcase)
+    		WordWizard.Instance.GetExploreScene().SetStatusMsg(((Bookcase) myroom.tiles[m_y-1][m_x]).getBookString());
+
     }
     /**
      * Maintain input for player object

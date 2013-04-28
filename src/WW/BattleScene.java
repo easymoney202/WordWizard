@@ -79,13 +79,13 @@ public class BattleScene extends GameScene {
 	 */
 	public void SetNewWord()
 	{
+		Random rand = new Random();
+		int type = rand.nextInt(2);
 		m_finalTime = System.currentTimeMillis() + m_timeLength;
-		m_problem = m_wordList.getProblem(m_numQs, 0);
+		m_problem = m_wordList.getProblem(m_numQs, type);
 		m_gameList = new ArrayList<String>();
 		m_enemyWord = m_problem.remove(0);
 		m_answer = m_problem.get(0);
-		
-		Random rand = new Random();
 		
 		// Randomize the options
 		while (!m_problem.isEmpty())

@@ -12,6 +12,12 @@ public class Words {
     ArrayList<String> syns; //synonyms of the word
     ArrayList<String> ants; //antonyms of the word
 
+    public Words(){
+    	theword = null;
+    	syns = new ArrayList<String>();
+    	ants = new ArrayList<String>();
+    }
+    
     /** Constructor for Words.  Requires word, synonyms, antonyms
      * 
      * @param tw		String for the word involved

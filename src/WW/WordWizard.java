@@ -2,6 +2,7 @@ package WW;
 
 import javax.swing.JFrame;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class WordWizard extends JFrame {
 	private static final long serialVersionUID = 2635031231518739273L;
@@ -10,6 +11,7 @@ public class WordWizard extends JFrame {
 	public static Room m_currentRoom;
 	public static Player m_player;
 	public static Dungeon m_dungeon;
+	public static Dictionary m_dictionary;
 	public static WordWizard Instance = null;
 	public static Integer WINDOW_WIDTH = 640;
 	public static Integer WINDOW_HEIGHT = 500;
@@ -35,7 +37,8 @@ public class WordWizard extends JFrame {
 	 */
 	public WordWizard() {
 		Instance = this;
-		m_dungeon = new Dungeon();
+		m_dictionary = new Dictionary();
+		m_dungeon = new Dungeon(m_dictionary.getLevelWords(1));
 		m_gamePanel = new GamePanel();
 		add(m_gamePanel);
 		setTitle("Word Wizard");
@@ -45,10 +48,16 @@ public class WordWizard extends JFrame {
 		setVisible(true);
 		setResizable(false);
 		
-		m_wordList = new WordList();
-		m_wordList.init();
+		m_wordList = m_dictionary.getStarter();
 
 		m_currentRoom = m_dungeon.generate(NUM_ROOMS);
+		
+		ArrayList<Words> newwords = m_currentRoom.getRoomWords();
+		if(newwords != null) {		
+			for(Words w : newwords) {
+				m_wordList.addToKnown(w);
+			}
+		}
 		m_player = new Player(m_currentRoom);
 		m_player.SetPosition(m_dungeon.getCurrentRoom().GetPlayerStartX(),
 				m_dungeon.getCurrentRoom().GetPlayerStartY());
