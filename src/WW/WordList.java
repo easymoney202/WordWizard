@@ -34,11 +34,24 @@ public class WordList {
 	 */
 	public void addToKnown(String word, ArrayList<String> syns,
 			ArrayList<String> ants) {
-		knownwords.add(new Words(word, syns, ants));
-		for (String s : syns)
-			addToEnc(s);
-		for (String a : ants)
-			addToEnc(a);
+		Words temp = new Words(word, syns, ants)
+		if(!knownwords.contains(temp)) {
+			knownwords.add(temp);
+			for (String s : syns)
+				addToEnc(s);
+			for (String a : ants)
+				addToEnc(a);
+		}
+	}
+	
+	public void addToKnown(Words w) {
+		if(!knownwords.contains(w)) {
+			knownwords.add(w);
+			for (String s : w.getAllSyns())
+				addToEnc(s);
+			for (String a : w.getAllAnts())
+				addToEnc(a);
+		}
 	}
 
 	/**
@@ -95,13 +108,18 @@ public class WordList {
 			answer = knownwords.get(z).getRandomAnt();
 			matchset = knownwords.get(z).getAllAnts();
 		} // end else
-		qset.add(word); // add word to the beginning of the list
+		String temp;
+		if(type == 1)
+			temp = ("Find Synonym: " + word);
+		else
+			temp = ("Find Antonym: " + word);
+		qset.add(temp); // add word to the beginning of the list
 		qset.add(answer); // add answer right afterwards
 		int i = 0;
 		/* Get a random word, compare it to all correct answers */
 		while (i < numQs - 1) {
 			String wrong = getRandomEncWord();
-			if (!matchset.contains(wrong) && !wrong.equals(word)) {
+			if (!matchset.contains(wrong) && !wrong.equals(word) && !qset.contains(wrong)) {
 				qset.add(wrong);
 				i++;
 			} // end if
@@ -148,6 +166,9 @@ public class WordList {
 		} // end for
 	}
 
+	public List<Words> getKnown() {
+		return knownwords;
+	}
 	/**
 	 * This is a placeholder for dumping all of the syns/ants Just general
 	 * initialization of the array with a few predetermined words.
