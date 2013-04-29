@@ -19,7 +19,7 @@ public class Door extends RoomObject {
 	String r2sub; // Description of room 2
 
 	public Door(){
-		super("Images/door.bmp");
+		super("Images/Door.png");
 	}
 	
 	public Door(Integer r1, Integer r2, Direction r1dir, Direction r2dir) {

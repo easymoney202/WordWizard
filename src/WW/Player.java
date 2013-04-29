@@ -1,5 +1,9 @@
 package WW;
+import java.awt.Image;
 import java.awt.event.KeyEvent;
+import java.io.File;
+
+import javax.imageio.ImageIO;
 
 /**
  * Player represents the protagonist, and contains his stats and such
@@ -13,11 +17,14 @@ public class Player extends Entity {
 	public int exp;
 	public int maxExp;
 	public int maxHealth;
+	
+	public File BattleImgFile;
+	public Image BattleImg;
     /**
      * Constructor with default stats loaded
      */
     public Player(Room myroom) {
-    	super("Images/player.bmp", myroom);
+    	super("Images/Player.png", myroom);
         health = 100;
         maxHealth = 100;
         level = 1;
@@ -26,6 +33,16 @@ public class Player extends Entity {
         exp = 0;
         maxExp = 100;
         m_moved = false;
+        
+        try
+        {
+        	BattleImgFile = new File("Images/Player2.png");
+        	BattleImg = ImageIO.read(BattleImgFile);
+        }
+        catch (Exception ex)
+        {
+        	System.out.println("Problem loading Player2.png.");
+        }
     }
     /**
      * Moves the player by an offset
@@ -56,16 +73,16 @@ public class Player extends Entity {
     {
     	// Interact with shelves
     	if (myroom.tiles[m_y][m_x + 1] instanceof Bookcase )
-    		WordWizard.Instance.GetExploreScene().SetStatusMsg(((Bookcase) myroom.tiles[m_y][m_x + 1]).getBookString());
+    		WordWizard.Instance.GetExploreScene().ShowBook("Magical Words", ((Bookcase) myroom.tiles[m_y][m_x + 1]).getBookString());
 
     	else if (myroom.tiles[m_y][m_x -1] instanceof Bookcase) 
-    		WordWizard.Instance.GetExploreScene().SetStatusMsg(((Bookcase) myroom.tiles[m_y][m_x - 1]).getBookString());
+    		WordWizard.Instance.GetExploreScene().ShowBook("Magical Words", ((Bookcase) myroom.tiles[m_y][m_x - 1]).getBookString());
 
     	else if (myroom.tiles[m_y+1][m_x] instanceof Bookcase)
-    		WordWizard.Instance.GetExploreScene().SetStatusMsg(((Bookcase) myroom.tiles[m_y+1][m_x]).getBookString());
+    		WordWizard.Instance.GetExploreScene().ShowBook("Magical Words", ((Bookcase) myroom.tiles[m_y+1][m_x]).getBookString());
 
     	else if (myroom.tiles[m_y-1][m_x] instanceof Bookcase)
-    		WordWizard.Instance.GetExploreScene().SetStatusMsg(((Bookcase) myroom.tiles[m_y-1][m_x]).getBookString());
+    		WordWizard.Instance.GetExploreScene().ShowBook("Magical Words", ((Bookcase) myroom.tiles[m_y-1][m_x]).getBookString());
     	
     	else if (myroom.tiles[m_y][m_x + 1] instanceof NPC )
     		WordWizard.Instance.GetExploreScene().SetStatusMsg(((NPC) myroom.tiles[m_y][m_x + 1]).getLine());

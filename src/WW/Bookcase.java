@@ -12,11 +12,11 @@ public class Bookcase extends RoomObject {
 	Words book;
 	
 	public Bookcase() {
-		super("Images/shelf.bmp");
+		super("Images/Shelf.png");
 		book = new Words();
 	}
 	public Bookcase(Words w) {
-		super("Images/shelf.bmp");
+		super("Images/Shelf.png");
 		book = w;
 		System.out.println(book.getWord());
 	}
@@ -32,17 +32,17 @@ public class Bookcase extends RoomObject {
 	public String getBookString() {
 		if(book == null || book.getWord() == null)
 			return "Status: The bookshelf does not contain any magic manuscripts.";
-		String status = "Word: ";
+		String status = "Word:--";
 		status += (book.getWord());
-		status += ("-- Synonyms: ");
+		status += ("-- --Synonyms:--  ");
 		for(String s : book.getAllSyns()) {
 			status += (s);
-			status += (" ");
+			status += ("--  ");
 		}
-		status += ("-- Antonyms: ");
+		status += ("--Antonyms:--  ");
 		for(String a : book.getAllAnts()) {
 			status += (a);
-			status += (" ");
+			status += ("--  ");
 		}
 		return status;
 	}

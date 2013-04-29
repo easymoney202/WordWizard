@@ -16,8 +16,8 @@ public class Room {
 	Integer player_startX, player_startY;
 	ArrayList<Words> roomwords;
 	ArrayList<Bookcase> bookcaselist;
+	NPC oldman;
 	int num_bookcases;
-	NPC oldman = new NPC("Oh, you must be the hero!", "Please, defeat the Wizard and save us all!" );
 	
 	RoomObject tiles[][];
     
@@ -38,6 +38,7 @@ public class Room {
         roomwords = rw;
         num_bookcases = 8;
         bookcaselist = new ArrayList<Bookcase>();
+    	oldman = new NPC("Oh, you must be the hero!", "Please, defeat the Wizard and save us all!" );
         for(int i=0; i<num_bookcases; i++) {
         	if(i<rw.size()) //if there's a word to assign to the bookcase, do so
         		bookcaselist.add(new Bookcase(rw.get(i)));

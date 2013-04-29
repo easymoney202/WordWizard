@@ -70,8 +70,7 @@ public class WordWizard extends JFrame {
 		
 		GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
 		
-		// Testing battle code
-		//StartBattleScene(new Enemy("Images/player.bmp", m_currentRoom, 1), 0);
+		//StartBattleScene(new Enemy("Images/Player.png", m_currentRoom, 1), 0);
 
 		GameLoop();
 	}

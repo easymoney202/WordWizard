@@ -19,7 +19,7 @@ import WW.WordWizard.GAME_STATE;
  * Scene for battles
  */
 public class BattleScene extends GameScene {
-	private int EXP_GAIN = 100;
+	private int EXP_GAIN = 35;
 	
 	private Player m_player;
 	private Enemy m_enemy;
@@ -112,7 +112,7 @@ public class BattleScene extends GameScene {
 		{
 			// Player won!
 			// Compute some experience gain based on enemy level
-			int expGain = (int)(((float)m_enemy.level) * EXP_GAIN);
+			int expGain = (int)(((float)m_enemy.level/(((float)m_player.level)/2)) * EXP_GAIN);
 			m_player.AddEXP(expGain);
 			// Go back to explore mode
 			WordWizard.Instance.SetGameState(GAME_STATE.Explore);
@@ -187,22 +187,22 @@ public class BattleScene extends GameScene {
 		g2.drawString("Enemy: ", 300, 40);
 		g2.setColor(Color.WHITE);
 		g2.drawString(m_enemy.name, 369, 40);
-		g2.drawString("Level: " + m_enemy.level, 300, 60);
+		g2.drawString("Level: " + m_enemy.level, 300, 80);
 		g2.setColor(Color.RED);
-		g2.drawString("Enemy Health: " + m_enemy.getHealth(), 300, 80);
+		g2.drawString("Enemy Health: " + m_enemy.getHealth(), 300, 60);
 		
 		g2.setColor(Color.WHITE);
-		font = new Font("ARIAL", Font.BOLD, 22);
+		font = new Font("ARIAL", Font.BOLD, 20);
 		g2.setFont(font);
 		// Draw the words
-		g2.drawString("Enemy Attack: " + m_enemyWord, 120, 370);
+		g2.drawString("Enemy Attack: " + m_enemyWord, 120, 150);
 		// Draw the options
 		for (int i = 0; i < m_gameList.size(); i++)
 		{
 			if (m_selection == i)
-				g2.drawString("> " + m_gameList.get(i), 120, 400 + i * 30);
+				g2.drawString("> " + m_gameList.get(i), 120, 400 + i * 25);
 			else
-				g2.drawString("   " + m_gameList.get(i), 120, 400 + i * 30);
+				g2.drawString("   " + m_gameList.get(i), 120, 400 + i * 25);
 		}
 		
 		// Draw the time
@@ -218,6 +218,8 @@ public class BattleScene extends GameScene {
 	{
 		g.drawImage(m_background, 0, 0, null);
 		DrawHUD(g);
+		g.drawImage(m_enemy.objectImage, 380, 148, null);
+		g.drawImage(m_player.BattleImg, 30, 148, null);
 	}
 	/**
 	 * Obtains input to the scene
