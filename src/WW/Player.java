@@ -96,6 +96,7 @@ public class Player extends Entity {
     	else if (myroom.tiles[m_y-1][m_x] instanceof NPC)
     		WordWizard.Instance.GetExploreScene().SetStatusMsg(((NPC) myroom.tiles[m_y-1][m_x]).getLine());
     }
+    
     /**
      * Maintain input for player object
      *  This is for explore mode
