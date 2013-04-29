@@ -66,7 +66,18 @@ public class Player extends Entity {
 
     	else if (myroom.tiles[m_y-1][m_x] instanceof Bookcase)
     		WordWizard.Instance.GetExploreScene().SetStatusMsg(((Bookcase) myroom.tiles[m_y-1][m_x]).getBookString());
+    	
+    	else if (myroom.tiles[m_y][m_x + 1] instanceof NPC )
+    		WordWizard.Instance.GetExploreScene().SetStatusMsg(((NPC) myroom.tiles[m_y][m_x + 1]).getLine());
 
+    	else if (myroom.tiles[m_y][m_x -1] instanceof NPC) 
+    		WordWizard.Instance.GetExploreScene().SetStatusMsg(((NPC) myroom.tiles[m_y][m_x - 1]).getLine());
+
+    	else if (myroom.tiles[m_y+1][m_x] instanceof NPC)
+    		WordWizard.Instance.GetExploreScene().SetStatusMsg(((NPC) myroom.tiles[m_y+1][m_x]).getLine());
+
+    	else if (myroom.tiles[m_y-1][m_x] instanceof NPC)
+    		WordWizard.Instance.GetExploreScene().SetStatusMsg(((NPC) myroom.tiles[m_y-1][m_x]).getLine());
     }
     /**
      * Maintain input for player object

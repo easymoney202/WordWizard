@@ -17,6 +17,7 @@ public class Room {
 	ArrayList<Words> roomwords;
 	ArrayList<Bookcase> bookcaselist;
 	int num_bookcases;
+	NPC oldman = new NPC("Oh, you must be the hero!", "Please, defeat the Wizard and save us all!" );
 	
 	RoomObject tiles[][];
     
@@ -47,7 +48,7 @@ public class Room {
         
         tiles = new RoomObject[][] {
     			{new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Door(), new Wall(), new Wall(), new Wall(), new Wall()},
-    			{new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall(), new Ground(), new Ground(), bookcaselist.get(0), bookcaselist.get(1), new Ground(), new Wall()},
+    			{new Wall(), oldman, new Ground(), new Ground(), new Ground(), new Wall(), new Ground(), new Ground(), bookcaselist.get(0), bookcaselist.get(1), new Ground(), new Wall()},
     			{new Wall(), new Ground(), new Spawn(), new Ground(), new Ground(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall()},
     			{new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall()},
     			{new Wall(), new Ground(), new Ground(), new Wall(), new Wall(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall()},
