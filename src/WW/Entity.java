@@ -20,6 +20,8 @@ public class Entity extends RoomObject {
 	protected Boolean m_moved;
 
 	protected Room myroom;
+	
+	protected Boolean dead = false;
 
 	public Entity(String imageloc, Room myroom) {
 		super(imageloc);
@@ -53,9 +55,19 @@ public class Entity extends RoomObject {
 	public Integer GetLevel() {
 		return level;
 	}
-
+	
+	public void die(){
+		dead = true;
+		this.setImageFile("Images/player_dead.bmp");
+	}
 	public Integer beAttacked(Integer dmg) {
 		health = health - dmg;
+		if(health <= 0){
+			die();
+		}
 		return health;
 	} // end dmgPlayer
+	public Boolean isDead(){
+		return dead;
+	}
 }

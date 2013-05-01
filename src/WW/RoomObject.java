@@ -15,20 +15,23 @@ public abstract class RoomObject {
 
 	public RoomObject() {
 	}
-
+	
 	public RoomObject(String fileloc) {
-		objectImageFile = new File(fileloc);
-		try {
-			objectImage = ImageIO.read(objectImageFile);
-		} catch (IOException e) {
-			System.out.println("Error opening image file: " + fileloc);
-			e.printStackTrace();
-		}
+		setImageFile(fileloc);
 	}
 	
 	public void render(Graphics g, Integer locx, Integer locy) {
 		Graphics2D gr = (Graphics2D)g;
 		gr.drawImage(objectImage, locx , locy, null);
 	}
-
+	
+	protected void setImageFile(String imageloc){
+		objectImageFile = new File(imageloc);
+		try {
+			objectImage = ImageIO.read(objectImageFile);
+		} catch (IOException e) {
+			System.out.println("Error opening image file: " + imageloc);
+			e.printStackTrace();
+		}
+	}
 }

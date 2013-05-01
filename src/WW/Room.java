@@ -30,21 +30,8 @@ public class Room {
     public Room(Integer id, Enemy en) {
         roomid = id;
         anenemy = en;
-        tiles = new RoomObject[][] {
-    			{new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Door(), new Wall(), new Wall(), new Wall(), new Wall()},
-    			{new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall(), new Ground(), new Ground(), new Bookcase(), new Bookcase(), new Ground(), new Wall()},
-    			{new Wall(), new Ground(), new Spawn(), new Ground(), new Ground(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall()},
-    			{new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall()},
-    			{new Wall(), new Ground(), new Ground(), new Wall(), new Wall(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall()},
-    			{new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Bookcase(), new Wall()},
-    			{new Door(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Bookcase(), new Door()},
-    			{new Wall(), new Ground(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Bookcase(), new Wall()},
-    			{new Wall(), new Ground(), new Wall(), new Wall(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall()},
-    			{new Wall(), new Ground(), new Ground(), new Ground(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall()},
-    			{new Wall(), new Bookcase(), new Bookcase(), new Bookcase(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall()},
-    			{new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall()}
-    	};
-        
+        tiles = new RoomObject[MAP_X_SIZE+1][MAP_Y_SIZE+1];
+        generate();
 		// Get extra info from tile array like player starting position
 		for (Integer i = 0; i < MAP_X_SIZE; i++)
 		{
@@ -108,5 +95,28 @@ public class Room {
 				}
 			}
 		}
+	}
+	public void generate(){
+		for(int x = 0; x < MAP_X_SIZE; x++){
+			for(int y=0; y < MAP_Y_SIZE; y++){
+				tiles[x][y] = new Ground();
+			}
+		}
+		tiles[3][3] = new Spawn();
+		/*tiles = new RoomObject[][] {
+    			{new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall()},
+    			{new Wall(), new Ground(), new Ground(), new Ground(), new Bookcase(), new Wall(), new Ground(), new Ground(), new Bookcase(), new Bookcase(), new Ground(), new Wall()},
+    			{new Wall(), new Ground(), new Wall(), new Ground(), new Ground(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall()},
+    			{new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall()},
+    			{new Wall(), new Ground(), new Ground(), new Wall(), new Wall(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall()},
+    			{new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Bookcase(), new Wall()},
+    			{new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Bookcase(), new Wall()},
+    			{new Wall(), new Ground(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Bookcase(), new Wall()},
+    			{new Wall(), new Ground(), new Wall(), new Wall(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall()},
+    			{new Wall(), new Ground(), new Ground(), new Ground(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall()},
+    			{new Wall(), new Bookcase(), new Bookcase(), new Bookcase(), new Wall(), new Ground(), new Spawn(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall()},
+    			{new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall()}
+    	};*/
+        
 	}
 }

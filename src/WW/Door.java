@@ -9,21 +9,27 @@ import WW.Dungeon.Direction;
  * @version Alpha
  * 
  */
-public class Door extends RoomObject {
-	Integer room1; // "starting" room's id
-	Integer room2; // "ending" room's id
+public class Door extends Interactable {
 	// directions go 0-1-2-3 for N-E-S-W
 	Direction room1dir; // direction of starting room -- I.E. door in north wall
 	Direction room2dir; // opposite of room1dir. Usually
-	String r1sub; // Description of room 1
-	String r2sub; // Description of room 2
-
+	Room room1;
+	Room room2;
+	
 	public Door(){
 		super("Images/door.bmp");
 	}
 	
-	public Door(Integer r1, Integer r2, Direction r1dir, Direction r2dir) {
+	public Door(Room r1, Room r2) {
 		this();
+		room1 = r1;
+		room2 = r2;
+	}
 
+	@Override
+	public void interact(Entity e) {
+		System.out.println("You got hit by the door cuz I said so!");
+		// just screwing with health
+		e.beAttacked(10);
 	}
 }

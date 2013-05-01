@@ -7,9 +7,16 @@ package WW;
  * @version Alpha
  * 
  */
-public class Bookcase extends RoomObject {
+public class Bookcase extends Interactable {
 
 	public Bookcase() {
 		super("Images/shelf.bmp");
 	}
+
+	@Override
+	public void interact(Entity e){
+		System.out.println("Hey this is a bookcase!");
+	}
+	
+	
 }

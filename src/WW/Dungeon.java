@@ -38,6 +38,7 @@ public class Dungeon {
 			addRoom();
 		}
 		currentroomid = getRoom(0).getRoomID();
+		linkrooms();
 		return getRoom(0);
 	}
 
@@ -48,6 +49,18 @@ public class Dungeon {
 	 */
 	public Room getCurrentRoom() {
 		return getRoom(getCurrentRoomId());
+	}
+	
+	public void linkrooms(){
+		//                   [ ]
+		//               [ ] [ ] [ ]
+		//               [ ] [ ] [ ] [ ]
+		//                   [ ]     [ ]
+		//                   [*]
+		
+		for(int a = 0; a < rooms.size(); a++){
+			
+		}
 	}
 
 	/**
@@ -66,7 +79,7 @@ public class Dungeon {
 	 * If an enemy is present, it has an equal chance to be any of the enemies
 	 */
 	public void addRoom() {
-
+		
 		Random rand = new Random();
 		Boolean isEnemy = (rand.nextInt(2) == 0);
 		Enemy enemy = null;
