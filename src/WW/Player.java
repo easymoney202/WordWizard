@@ -1,6 +1,10 @@
 package WW;
 
+import java.awt.Image;
 import java.awt.event.KeyEvent;
+import java.io.File;
+
+import javax.imageio.ImageIO;
 
 /**
  * Player represents the protagonist, and contains his stats and such
@@ -10,18 +14,35 @@ import java.awt.event.KeyEvent;
  * 
  */
 public class Player extends Entity {
+	// Experience points and max experience points for next level
+	public int exp;
+	public int maxExp;
+	public int maxHealth;
+
+	public File BattleImgFile;
+	public Image BattleImg;
 
 	/**
 	 * Constructor with default stats loaded
 	 */
 
 	public Player(Room myroom) {
-		super("Images/player.bmp", myroom);
+		super("Images/Player.png", myroom);
 		health = 100;
+		maxHealth = 100;
 		level = 1;
 		dmgmin = 15;
 		dmgmax = 25;
+		exp = 0;
+		maxExp = 100;
 		m_moved = false;
+
+		try {
+			BattleImgFile = new File("Images/Player2.png");
+			BattleImg = ImageIO.read(BattleImgFile);
+		} catch (Exception ex) {
+			System.out.println("Problem loading Player2.png.");
+		}
 	}
 
 	/**
@@ -34,41 +55,36 @@ public class Player extends Entity {
 		if (m_y + y < 0 || m_x + x < 0)
 			return;
 
-		if (m_y + y > Room.MAP_Y_SIZE || m_x + y > Room.MAP_X_SIZE) {
+		if (m_y + y > Room.MAP_Y_SIZE || m_x + y > Room.MAP_X_SIZE)
 			return;
-		} else if (isDead()) {
-			System.out.println("Cannot move because you are dead!");
-			return;
-		}
 		if (myroom.tiles[m_y + y][m_x + x] instanceof Ground
 				|| myroom.tiles[m_y + y][m_x + x] instanceof Spawn) {
 			m_x += x;
 			m_y += y;
 			System.out.println("New player position: " + m_x + ", " + m_y);
-			WordWizard.Instance.ResetStatusMsg();
+			WordWizard.Instance.GetExploreScene().ResetStatusMsg();
 		}
 	}
-
 	/**
 	 * Interacts with the world
 	 */
 	public void Interact() {
 		if (!isDead()) {
 			RoomObject rightObject = null;
-			if(m_x+1 < Room.MAP_X_SIZE){
-			rightObject = myroom.tiles[m_y][m_x + 1];
+			if (m_x + 1 < Room.MAP_X_SIZE) {
+				rightObject = myroom.tiles[m_y][m_x + 1];
 			}
 			RoomObject leftObject = null;
-			if(m_x - 1 >= 0){
-			leftObject = myroom.tiles[m_y][m_x - 1];
+			if (m_x - 1 >= 0) {
+				leftObject = myroom.tiles[m_y][m_x - 1];
 			}
 			RoomObject upObject = null;
-			if(m_y - 1 >= 0){
-			upObject = myroom.tiles[m_y - 1][m_x];
+			if (m_y - 1 >= 0) {
+				upObject = myroom.tiles[m_y - 1][m_x];
 			}
 			RoomObject downObject = null;
-			if(m_y + 1 < Room.MAP_Y_SIZE){
-			downObject = myroom.tiles[m_y + 1][m_x];
+			if (m_y + 1 < Room.MAP_Y_SIZE) {
+				downObject = myroom.tiles[m_y + 1][m_x];
 			}
 			// Interact with objects
 			if (rightObject instanceof Interactable
@@ -90,16 +106,16 @@ public class Player extends Entity {
 				} else {
 					System.out.println("LOL I can't interact with anything");
 				}
-				WordWizard.Instance
-						.SetStatusMsg("Status: The bookshelf does not contain any magic manuscripts.");
 			}
 		} else {
 			System.out.println("You are dead bro");
 		}
 	}
 
+
+
 	/**
-	 * Maintain input for player object
+	 * Maintain input for player object This is for explore mode
 	 * 
 	 * @param e
 	 */
@@ -135,7 +151,44 @@ public class Player extends Entity {
 	}
 
 	/**
-	 * Needed for correct movement
+	 * Sets new attack power, adds the level Increases max health and resets
+	 * health of player
+	 */
+	public void LevelUp() {
+		level++;
+		dmgmin = 1 + (int) (dmgmin * 1.15);
+		dmgmax = 1 + (int) (dmgmax * 1.20);
+		maxHealth = (int) (maxHealth * 1.15);
+		health = maxHealth;
+		System.out.println("Leveled Up: Health: " + maxHealth + ", Dmg Min: "
+				+ dmgmin + ", Dmg Max: " + dmgmax);
+	}
+
+	/**
+	 * Adds experience to the player
+	 * 
+	 * @param xp
+	 *            Experience to be added
+	 */
+	public void AddEXP(int xp) {
+		int extraExp = 0;
+		exp += xp;
+
+		// Level Up
+		if (exp >= maxExp) {
+			// Reset exp
+			extraExp = exp - maxExp;
+			exp = 0;
+			// Adjust exp needed for next level
+			maxExp = (int) (maxExp * 1.5);
+			LevelUp();
+			// Add the other EXP and make sure it is processed for leveling
+			AddEXP(extraExp);
+		}
+	}
+
+	/**
+	 * Needed for correct movement This is for explore mode
 	 * 
 	 * @param e
 	 */
@@ -143,5 +196,4 @@ public class Player extends Entity {
 		if (m_moved = true)
 			m_moved = false;
 	}
-
 }

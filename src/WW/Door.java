@@ -17,7 +17,7 @@ public class Door extends Interactable {
 	Room room2;
 	
 	public Door(){
-		super("Images/door.bmp");
+		super("Images/Door.png");
 	}
 	
 	public Door(Room r1, Room r2) {
@@ -28,8 +28,6 @@ public class Door extends Interactable {
 
 	@Override
 	public void interact(Entity e) {
-		System.out.println("You got hit by the door cuz I said so!");
-		// just screwing with health
-		e.beAttacked(10);
+		WordWizard.Instance.GetExploreScene().SetStatusMsg("This is a door.");
 	}
 }

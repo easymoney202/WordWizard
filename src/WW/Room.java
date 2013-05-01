@@ -1,5 +1,6 @@
 package WW;
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Room class will make note of anything a room contains, such as an enemy, book, or item
@@ -13,6 +14,10 @@ public class Room {
     Enemy anenemy;
     Boolean m_init = false;
 	Integer player_startX, player_startY;
+	ArrayList<Words> roomwords;
+	ArrayList<Bookcase> bookcaselist;
+	NPC oldman;
+	int num_bookcases;
 	
 	RoomObject tiles[][];
     
@@ -27,11 +32,38 @@ public class Room {
      * @param id			integer -- room id
      * @param enemy			enemy
      */
-    public Room(Integer id, Enemy en) {
+    public Room(Integer id, Enemy en, ArrayList<Words> rw, int num_bc) {
         roomid = id;
         anenemy = en;
         tiles = new RoomObject[MAP_X_SIZE+1][MAP_Y_SIZE+1];
         generate();
+        roomwords = rw;
+        num_bookcases = 8;
+        bookcaselist = new ArrayList<Bookcase>();
+    	oldman = new NPC("Oh, you must be the hero!", "Please, defeat the Wizard and save us all!" );
+        for(int i=0; i<num_bookcases; i++) {
+        	if(i<rw.size()) //if there's a word to assign to the bookcase, do so
+        		bookcaselist.add(new Bookcase(rw.get(i)));
+        	else //otherwise just add a bookcase
+        		bookcaselist.add(new Bookcase());
+        }
+        	
+        
+        tiles = new RoomObject[][] {
+    			{new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Door(), new Wall(), new Wall(), new Wall(), new Wall()},
+    			{new Wall(), oldman, new Ground(), new Ground(), new Ground(), new Wall(), new Ground(), new Ground(), bookcaselist.get(0), bookcaselist.get(1), new Ground(), new Wall()},
+    			{new Wall(), new Ground(), new Spawn(), new Ground(), new Ground(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall()},
+    			{new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall()},
+    			{new Wall(), new Ground(), new Ground(), new Wall(), new Wall(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall()},
+    			{new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), bookcaselist.get(2), new Wall()},
+    			{new Door(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), bookcaselist.get(3), new Door()},
+    			{new Wall(), new Ground(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), bookcaselist.get(4), new Wall()},
+    			{new Wall(), new Ground(), new Wall(), new Wall(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall()},
+    			{new Wall(), new Ground(), new Ground(), new Ground(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall()},
+    			{new Wall(), bookcaselist.get(5), bookcaselist.get(6), bookcaselist.get(7), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall()},
+    			{new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall()}
+    	};
+        
 		// Get extra info from tile array like player starting position
 		for (Integer i = 0; i < MAP_X_SIZE; i++)
 		{
@@ -59,6 +91,10 @@ public class Room {
      */
     public Integer getRoomID() {
         return roomid;
+    }
+    
+    public ArrayList<Words> getRoomWords() {
+    	return roomwords;
     }
     
     /**

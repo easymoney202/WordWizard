@@ -13,6 +13,8 @@ import java.util.Random;
 public class Dungeon {
 
 	ArrayList<Room> rooms;
+	ArrayList<Words> dungeonwords; //These are words that the dungeon will teach
+	ArrayList<Words> remainingwords; //These are unallocated dungeon words
 	Integer numrooms;
 	Integer currentroomid;
 
@@ -21,7 +23,16 @@ public class Dungeon {
 	 */
 	public Dungeon() {
 		rooms = new ArrayList<Room>();
+		dungeonwords = new ArrayList<Words>();
+		remainingwords = new ArrayList<Words>();
 		numrooms = 0;
+	}
+	
+	public Dungeon(ArrayList<Words> words) {
+		rooms = new ArrayList<Room>();
+		numrooms = 0;
+		dungeonwords = words;
+		remainingwords = words;
 	}
 
 	/**
@@ -32,7 +43,7 @@ public class Dungeon {
 	public Integer getCurrentRoomId() {
 		return currentroomid;
 	}
-
+	
 	public Room generate(Integer numofrooms) {
 		for (int a = 0; a < numofrooms; a++) {
 			addRoom();
@@ -73,13 +84,14 @@ public class Dungeon {
 	public Room getRoom(Integer id) {
 		return rooms.get(id);
 	}
-
+	
 	/**
 	 * Adds a room to the maze, with a 50/50 chance of an enemy being present.
 	 * If an enemy is present, it has an equal chance to be any of the enemies
 	 */
 	public void addRoom() {
-		
+
+		int num_bookcases = 8;
 		Random rand = new Random();
 		Boolean isEnemy = (rand.nextInt(2) == 0);
 		Enemy enemy = null;
@@ -93,8 +105,12 @@ public class Dungeon {
 		Boolean item = false;
 		Boolean book = false;
 		*/
-		
-		rooms.add(new Room(numrooms, enemy));
+		ArrayList<Words> temp = new ArrayList<Words>();
+		for(int i = 0; i<num_bookcases; i++) {
+			if(remainingwords.size()!= 0)
+				temp.add(remainingwords.remove(rand.nextInt(remainingwords.size())));
+		}
+		rooms.add(new Room(numrooms, enemy, temp, num_bookcases));
 		numrooms++;
 	}
 

@@ -4,12 +4,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * Panel for the game
+ */
 public class GamePanel extends JPanel implements ActionListener
 {
     private static final long serialVersionUID = 1L;
     public static GamePanel Instance;
     private static Boolean m_initialized = false;
 
+    /**
+     * Constructor
+     */
     public GamePanel()
     {
     	addKeyListener(new InputAdapter());
@@ -24,10 +30,16 @@ public class GamePanel extends JPanel implements ActionListener
     	}
     }
     
+    /**
+     * 
+     */
     public void actionPerformed(ActionEvent e){
     	repaint();
     }
     
+    /**
+     * Paint the game panel
+     */
     public void paint(Graphics g)
     {
     	super.paint(g);
@@ -45,23 +57,28 @@ public class GamePanel extends JPanel implements ActionListener
     	if (WordWizard.Instance != null)
     		WordWizard.Instance.paint(g);
     	
-    	//g.dispose();
+    	g.dispose();
     }
     
     /**
-     * Passes input to the corresponding classes
-     * @author diegopinatem
+     * Passes input to the corresponding scene
      */
     private class InputAdapter extends KeyAdapter
     {
     	public void keyPressed(KeyEvent e)
     	{
-    		WordWizard.Instance.GetPlayer().keyPressed(e);
+    		GameScene currentScene = WordWizard.Instance.GetCurrentScene();
+    		
+    		if (currentScene != null)
+    			currentScene.KeyPressed(e);
     	}
     	
     	public void keyReleased(KeyEvent e)
     	{
-    		WordWizard.Instance.GetPlayer().keyReleased(e);
+    		GameScene currentScene = WordWizard.Instance.GetCurrentScene();
+    		
+    		if (currentScene != null)
+    			currentScene.KeyReleased(e);
     	}
     }
 }
