@@ -18,6 +18,7 @@ public class Bookcase extends Interactable {
 
 	@Override
 	public void interact(Entity e){
+		WordWizard.Instance.GetExploreScene().SetStatusMsg("This is a book");
 		WordWizard.Instance.GetExploreScene().ShowBook("Magical Words",getBookString());
 		System.out.println("Hey this is a bookcase!");
 	}
@@ -47,11 +48,12 @@ public class Bookcase extends Interactable {
 			status += ("--  ");
 		}
 		status += ("--Antonyms:--  ");
+		
 		for(String a : book.getAllAnts()) {
 			status += (a);
 			status += ("--  ");
 		}
-		WordWizard.Instance.GetExploreScene().SetStatusMsg("This is a bookcase!");
+		
 		return status;
 	}
 }
