@@ -24,7 +24,7 @@ public class GameMain {
 		thelist = new WordList();
 		thelist.init();
 		maze = new Dungeon();
-		Room currentroom = maze.getCurrentRoom();
+		Room currentroom = maze.generate(8);
 		hero = new Player(currentroom);
 	}
 

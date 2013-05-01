@@ -50,16 +50,16 @@ public class Room {
         	
         
         tiles = new RoomObject[][] {
-    			{new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Door(), new Wall(), new Wall(), new Wall(), new Wall()},
+    			{new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Door(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall()},
     			{new Wall(), oldman, new Ground(), new Ground(), new Ground(), new Wall(), new Ground(), new Ground(), bookcaselist.get(0), bookcaselist.get(1), new Ground(), new Wall()},
     			{new Wall(), new Ground(), new Spawn(), new Ground(), new Ground(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall()},
     			{new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall()},
     			{new Wall(), new Ground(), new Ground(), new Wall(), new Wall(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall()},
     			{new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), bookcaselist.get(2), new Wall()},
-    			{new Door(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), bookcaselist.get(3), new Door()},
+    			{new Door(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), bookcaselist.get(3), new Wall()},
     			{new Wall(), new Ground(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), bookcaselist.get(4), new Wall()},
     			{new Wall(), new Ground(), new Wall(), new Wall(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall()},
-    			{new Wall(), new Ground(), new Ground(), new Ground(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall()},
+    			{new Wall(), new Ground(), new Ground(), new Ground(), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Door()},
     			{new Wall(), bookcaselist.get(5), bookcaselist.get(6), bookcaselist.get(7), new Wall(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Ground(), new Wall()},
     			{new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall(), new Wall()}
     	};

@@ -229,12 +229,18 @@ public class BattleScene extends GameScene {
 		switch (e.getKeyCode())
 		{
 		case KeyEvent.VK_UP:
-			if (m_selection > 0)
+			if (m_selection > 0){
 				m_selection--;
+			} else {
+				m_selection=m_numQs - 1;
+			}
 			break;
 		case KeyEvent.VK_DOWN:
-			if (m_selection < m_numQs - 1)
+			if (m_selection < m_numQs - 1){
 				m_selection++;
+			} else {
+				m_selection=0;
+			}
 			break;
 		case KeyEvent.VK_SPACE:
 			CheckAnswer();

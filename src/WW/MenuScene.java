@@ -18,6 +18,7 @@ public class MenuScene extends GameScene
 {
 	private int m_selection;
 	private Image m_background;
+	private int m_numberselections;
 	
 	/**
 	 * Constructor
@@ -26,6 +27,7 @@ public class MenuScene extends GameScene
 	public MenuScene() {
 		super();
 		m_selection = 0;
+		m_numberselections = 0;
 		try
 		{
 			File imageFile = new File("Images/title.png");
@@ -45,6 +47,7 @@ public class MenuScene extends GameScene
 		g.drawImage(m_background, 0, 0, null);
 		Graphics2D g2 = (Graphics2D) g;
 		Font font = new Font("ARIAL", Font.BOLD, 35);
+		m_numberselections = 2;
 		if (m_selection == 0)
 		{
 			g2.setFont(font);
@@ -72,11 +75,19 @@ public class MenuScene extends GameScene
 		switch(key)
 		{
 		case KeyEvent.VK_UP:
-			m_selection = 0;
+			if(m_selection > 0){
+			m_selection --;
+			} else{
+				m_selection = m_numberselections - 1;
+			}
 			break;
 		case KeyEvent.VK_DOWN:
-			m_selection = 1;
-			break;
+			if(m_selection < m_numberselections - 1){
+				m_selection ++;
+				} else{
+					m_selection = 0;
+				}
+				break;
 		case KeyEvent.VK_SPACE:
 			if (m_selection == 0)
 				WordWizard.Instance.SetGameState(GAME_STATE.Explore);
