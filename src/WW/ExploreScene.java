@@ -191,7 +191,7 @@ public class ExploreScene extends GameScene
 			for (int i = 0; i < m_bookString.length; i++)
 				g2.drawString(m_bookString[i], 30, 150 + i * 22);
 			g2.setColor(Color.WHITE);
-			g2.drawString("Press 'Q' To close the book.", 20, 465);
+			g2.drawString("Q to close Dictionary, B to go back a page, N to go to first page", 20, 465);
 		}
 	}
 	
