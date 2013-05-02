@@ -185,12 +185,12 @@ public class BattleScene extends GameScene {
 			
 		}
 		g2.setColor(Color.RED);
-		g2.drawString("Enemy: ", 300, 40);
+		g2.drawString("Enemy: ", 280, 40);
 		g2.setColor(Color.WHITE);
-		g2.drawString(m_enemy.name, 369, 40);
-		g2.drawString("Level: " + m_enemy.level, 300, 80);
+		g2.drawString(m_enemy.name, 349, 40);
+		g2.drawString("Level: " + m_enemy.level, 280, 80);
 		g2.setColor(Color.RED);
-		g2.drawString("Enemy Health: " + m_enemy.getHealth(), 300, 60);
+		g2.drawString("Enemy Health: " + m_enemy.getHealth(), 280, 60);
 		
 		g2.setColor(Color.WHITE);
 		font = new Font("ARIAL", Font.BOLD, 20);

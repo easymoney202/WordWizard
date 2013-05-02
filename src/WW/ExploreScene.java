@@ -164,6 +164,10 @@ public class ExploreScene extends GameScene
 				font = new Font("ARIAL", Font.BOLD, 15);
 				g2.drawString("Press 'E' to open", 485, 130);
 				g2.drawString("the Dictionary", 485, 149);
+				g2.drawString("Move with the", 485, 200);
+				g2.drawString("arrow keys", 485, 219);
+				g2.drawString("Press space to", 485, 270);
+				g2.drawString("interact", 485, 289);
 			}
 		}
 		else if (m_showDict)

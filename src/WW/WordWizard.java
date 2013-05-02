@@ -20,12 +20,16 @@ public class WordWizard extends JFrame {
 	ExploreScene 	m_exploreScene;
 	MenuScene 		m_menuScene;
 	BattleScene 	m_battleScene;
+	HowToScene		m_howToScene;
 	
 	WordList		m_wordList;
+	
+	boolean 		m_seenHowTo = false;
 	
 	public enum GAME_STATE
 	{
 		Menu,
+		HowTo,
 		Explore,
 		Battle
 	};
@@ -70,6 +74,7 @@ public class WordWizard extends JFrame {
 		m_player.name = "Young Wizard";
 		
 		m_menuScene = new MenuScene();
+		m_howToScene = new HowToScene();
 		m_exploreScene = new ExploreScene(m_player, m_currentRoom, m_dungeon, m_wordList);
 
 		System.out.println(Instance);
@@ -98,6 +103,10 @@ public class WordWizard extends JFrame {
 		case Battle:
 			if (m_battleScene != null)
 				m_battleScene.paint(g);
+			break;
+		case HowTo:
+			if (m_howToScene != null)
+				m_howToScene.paint(g);
 			break;
 		default:
 			// Shouldn't happen
@@ -142,6 +151,9 @@ public class WordWizard extends JFrame {
 				if (m_battleScene != null)
 					m_battleScene.Update();
 				break;
+			case HowTo:
+				if (m_howToScene != null)
+					m_howToScene.Update();
 			default:
 				break;
 			}
@@ -178,6 +190,10 @@ public class WordWizard extends JFrame {
 		case Battle:
 			if (m_battleScene != null)
 				return m_battleScene;
+			break;
+		case HowTo:
+			if (m_howToScene != null)
+				return m_howToScene;
 			break;
 		default:
 			return null;

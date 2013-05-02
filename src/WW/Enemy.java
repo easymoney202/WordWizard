@@ -39,8 +39,9 @@ public class Enemy extends Entity {
 		int odds = rand.nextInt(10);
 		// Select type of enemy
 		int enType_id = rand.nextInt(_enType.length);
-		if (odds > 6)
+		if (odds > 7)
 		{
+			// Special Enemies - Mini bosses
 			// Add more level to the enemy
 			level += rand.nextInt(2) + 1;
 			int adj_id = rand.nextInt(_adj.length);
@@ -76,9 +77,9 @@ public class Enemy extends Entity {
 		}
 		
 		
-		health = 30 * level;
-		dmgmin = (int)(10 * _lvl * 0.8);
-		dmgmax = (int)(25 * _lvl * 0.7);
+		health = 15 * level + rand.nextInt((int)(level*1.2));
+		dmgmin = (int)(6 * _lvl * 0.8);
+		dmgmax = (int)(17 * _lvl * 0.7);
 	}
 	
 	/**
@@ -102,58 +103,6 @@ public class Enemy extends Entity {
 	
 	Integer words;
 
-	/**
-	 * Constructor will assign stats based on four templates
-	 * 
-	 * @param entype
-	 *            EnemyType -- the type of enemy encountered
-	 */
-	/*	public Enemy() {
-	else if (entype == EnemyType.GOBLIN) { // Goblin
-			name = "Goblin";
-			health = 30;
-			dmgmin = 10;
-			dmgmax = 20;
-			words = 3;
-		} else if (entype == EnemyType.APPRENTICE) { // Apprentice
-			name = "Wizard Apprentice";
-			health = 50;
-			dmgmin = 10;
-			dmgmax = 25;
-			words = 5;
-		} else if (entype == EnemyType.GHOUL) { // Ghoul
-			name = "Ghoul";
-			health = 80;
-			dmgmin = 25;
-			dmgmax = 50;
-			words = 4;
-		} else if (entype == EnemyType.WORD_WIZARD) { // Word Wizard
-			name = "Word Wizard";
-			health = 200;
-			dmgmin = 20;
-			dmgmax = 30;
-			words = 6;
-		} else {
-			name = "WEIRDO?";
-			health = 1;
-			dmgmin = 1;
-			dmgmax = 1;
-			words = 2;
-		}
-		*/
-		// health banks
-		/*
-		 * gobhealth = 30; apphealth = 50; ghohealth = 80; wizhealth = 200;
-		 * 
-		 * //damage banks, with mins and maxes gobdmgmin = 10; gobdmgmax = 20;
-		 * appdmgmin = 10; appdmgmax = 25; ghodmgmin = 25; ghodmgmax = 50;
-		 * wizdmgmin = 20; wizdmgmax = 30;
-		 * 
-		 * //word option banks gobwords = 3; appwords = 5; ghowords = 4;
-		 * wizwords = 6;
-		 
-	}
-*/
 	/**
 	 * Determines how much damage enemy does on incorrect answer
 	 * 
