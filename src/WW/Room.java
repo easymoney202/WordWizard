@@ -151,7 +151,7 @@ public class Room {
 	}
 
 	public RoomObject[][] generate() {
-		Integer randomChanceWall = 5;
+		Integer randomChanceWall = 6;
 		Integer randomChanceBook = 6;
 		RoomObject mytiles[][] = new RoomObject[MAP_X_SIZE][MAP_Y_SIZE];
 		for (int x = 0; x < MAP_X_SIZE; x++) {
@@ -178,7 +178,16 @@ public class Room {
 				}
 			}
 		}
-		mytiles[3][3] = new Spawn();
+
+		boolean spawncreated = false;
+		while (!spawncreated) {
+			Integer randomx = new Random().nextInt(MAP_X_SIZE - 1) + 1;
+			Integer randomy = new Random().nextInt(MAP_Y_SIZE - 1) + 1;
+			if (mytiles[randomx][randomy].getClass().toString().equals(Ground.class.toString())) {
+				mytiles[randomx][randomy] = new Spawn();
+				spawncreated = true;
+			}
+		}
 
 		return mytiles;
 	}
@@ -206,7 +215,7 @@ public class Room {
 			retvalue++;
 		return retvalue;
 	}
-	
+
 	public enum Direction {
 		NORTH, EAST, SOUTH, WEST;
 		public static Direction fromInteger(Integer x) {
