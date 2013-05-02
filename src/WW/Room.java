@@ -151,14 +151,16 @@ public class Room {
 	}
 
 	public RoomObject[][] generate() {
-		Integer randomChanceWall = 6;
+		Integer randomChanceWall = 8;
 		Integer randomChanceBook = 6;
+		Integer randomChanceNPC = 4;
 		RoomObject mytiles[][] = new RoomObject[MAP_X_SIZE][MAP_Y_SIZE];
 		for (int x = 0; x < MAP_X_SIZE; x++) {
 			for (int y = 0; y < MAP_Y_SIZE; y++) {
 				mytiles[x][y] = new Ground();
 			}
 		}
+		boolean npc = (0 == new Random().nextInt(randomChanceNPC));
 		for (int x = 0; x < MAP_X_SIZE; x++) {
 			for (int y = 0; y < MAP_Y_SIZE; y++) {
 				Integer numadjbooks = checkSurroundings(x, y, mytiles, Bookcase.class.toString());
@@ -173,7 +175,10 @@ public class Room {
 					mytiles[x][y] = bk;
 				} else if (wall && numadjwalls < 2) {
 					mytiles[x][y] = new Wall();
-				} else {
+				} else if(npc){
+					mytiles[x][y] = new NPC("Touch me baby one more time!", "Too hard man, you are hurting me!");
+					npc = false;
+				}else {
 					mytiles[x][y] = new Ground();
 				}
 			}
