@@ -24,12 +24,33 @@ public class NPC extends Interactable {
 	
 	Image groundImage;
 
+	public NPC() {
+		super("Images/NPC_Oldman.png");
+		book = new Words();
+		firstline = "Not a lot to complain about";
+		repeatline = "Well, except for the dungeon of monsters here";
+		donefirst = false;
+		donesecond = false;
+		
+		// Need to render ground below the NPC
+		try
+		{
+			File grndImg = new File("Images/Floor.png");
+			groundImage = ImageIO.read(grndImg);
+		}
+		catch (Exception ex)
+		{
+			
+		}
+	}
+	
 	public NPC(String fl, String rl) {
 		super("Images/NPC_Oldman.png");
 		book = new Words();
 		firstline = fl;
 		repeatline = rl;
 		donefirst = false;
+		donesecond = false;
 		
 		// Need to render ground below the NPC
 		try

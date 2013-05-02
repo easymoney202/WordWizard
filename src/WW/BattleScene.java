@@ -155,6 +155,7 @@ public class BattleScene extends GameScene {
 			// Damage the player since it took too long to answer
 			int damage = m_enemy.enemyStrike();
 			m_player.beAttacked(damage);
+			CheckBattleStatus();
 			SetNewWord();
 		}
 	}
