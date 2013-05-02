@@ -249,10 +249,8 @@ public class WordWizard extends JFrame {
 	public void SetGameState(GAME_STATE state)
 	{
 		m_gameState = state;
-		if (state == GAME_STATE.Explore)
-		{
-			m_exploreScene.ResetBattleTime();
-		}
+		m_exploreScene.ResetBattleTime();
+
 		if (state == GAME_STATE.GameOver)
 		{
 			ResetGame();
