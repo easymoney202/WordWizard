@@ -176,8 +176,7 @@ public class ExploreScene extends GameScene
 			for (int j = 0; j< m_bookPage2.length; j++)
 				g2.drawString(m_bookPage2[j], 380, 130 + j * 22);
 			g2.setColor(Color.WHITE);
-			g2.drawString("Press 'Q' To close Dictionary.", 20, 470);
-			g2.drawString("Press 'N' to go to next page.", 320, 470);
+			g2.drawString("Q to close Dictionary, B to go back a page, N to go to next page", 20, 465);
 		} 
 		else
 		{
@@ -261,6 +260,15 @@ public class ExploreScene extends GameScene
 					m_curpage = m_curpage + 2;
 				else
 					m_curpage = 0;
+			}
+			ReadDict();
+		}
+		else if (e.getKeyCode() == KeyEvent.VK_B) {
+			if(m_showDict) {
+				if(m_curpage-2 >= 0)
+					m_curpage = m_curpage - 2;
+				else
+					m_curpage = m_player.getWordList().getKnown().size()-1;
 			}
 			ReadDict();
 		}
