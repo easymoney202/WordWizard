@@ -71,6 +71,7 @@ public class Dungeon {
 		
 		for(int a = 0; a < rooms.size(); a++){
 			
+			System.out.println("Room: " + rooms.get(a));
 		}
 	}
 
@@ -114,21 +115,4 @@ public class Dungeon {
 		numrooms++;
 	}
 
-	public enum Direction {
-		NORTH, EAST, SOUTH, WEST;
-		public static Direction fromInteger(Integer x) {
-			switch (x) {
-			case 0:
-				return NORTH;
-			case 1:
-				return EAST;
-			case 2:
-				return SOUTH;
-			case 3:
-				return WEST;
-			default:
-				return null;
-			}
-		}
-	}
 }

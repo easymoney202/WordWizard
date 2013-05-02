@@ -55,7 +55,7 @@ public class Player extends Entity {
 		if (m_y + y < 0 || m_x + x < 0)
 			return;
 
-		if (m_y + y > Room.MAP_Y_SIZE || m_x + y > Room.MAP_X_SIZE)
+		if (m_y + y > Room.MAP_Y_SIZE - 1 || m_x + x > Room.MAP_X_SIZE - 1)
 			return;
 		if (myroom.tiles[m_y + y][m_x + x] instanceof Ground
 				|| myroom.tiles[m_y + y][m_x + x] instanceof Spawn) {
@@ -65,6 +65,7 @@ public class Player extends Entity {
 			WordWizard.Instance.GetExploreScene().ResetStatusMsg();
 		}
 	}
+
 	/**
 	 * Interacts with the world
 	 */
@@ -111,8 +112,6 @@ public class Player extends Entity {
 			System.out.println("You are dead bro");
 		}
 	}
-
-
 
 	/**
 	 * Maintain input for player object This is for explore mode
