@@ -180,7 +180,7 @@ public class ExploreScene extends GameScene {
 			for (int i = 0; i < m_bookString.length; i++)
 				g2.drawString(m_bookString[i], 30, 150 + i * 22);
 			g2.setColor(Color.WHITE);
-			g2.drawString("Q to close Dictionary, B to go back a page, N to go to first page", 20, 465);
+			g2.drawString("Q to close Book", 20, 465);
 		}
 	}
 
@@ -238,10 +238,10 @@ public class ExploreScene extends GameScene {
 	 */
 	public void KeyPressed(KeyEvent e) {
 
-		if (e.getKeyCode() == KeyEvent.VK_E && !m_showDict)
+		if (e.getKeyCode() == KeyEvent.VK_E && !m_showDict && !m_showBook)
 			ReadDict();
 
-		else if (e.getKeyCode() == KeyEvent.VK_N) {
+		else if (e.getKeyCode() == KeyEvent.VK_N && !m_showBook) {
 			if (m_showDict) {
 				if (m_curpage + 2 < m_player.getWordList().getKnown().size())
 					m_curpage = m_curpage + 2;
@@ -249,7 +249,7 @@ public class ExploreScene extends GameScene {
 					m_curpage = 0;
 			}
 			ReadDict();
-		} else if (e.getKeyCode() == KeyEvent.VK_B) {
+		} else if (e.getKeyCode() == KeyEvent.VK_B && !m_showBook) {
 			if (m_showDict) {
 				if (m_curpage - 2 >= 0)
 					m_curpage = m_curpage - 2;
@@ -259,7 +259,7 @@ public class ExploreScene extends GameScene {
 			ReadDict();
 		}
 		// Pass input to player only when not looking at a book
-		else if (m_showBook == false && !m_showDict)
+		else if (!m_showBook && !m_showDict)
 			m_player.keyPressed(e);
 
 		// Testing leveling

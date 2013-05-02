@@ -21,6 +21,7 @@ public class WordWizard extends JFrame {
 	MenuScene 		m_menuScene;
 	BattleScene 	m_battleScene;
 	HowToScene		m_howToScene;
+	GameOverScene	m_gameOverScene;
 	
 	WordList		m_wordList;
 	
@@ -31,7 +32,8 @@ public class WordWizard extends JFrame {
 		Menu,
 		HowTo,
 		Explore,
-		Battle
+		Battle,
+		GameOver
 	};
 	
 	public static GAME_STATE m_gameState = GAME_STATE.Menu;
@@ -76,6 +78,7 @@ public class WordWizard extends JFrame {
 		m_menuScene = new MenuScene();
 		m_howToScene = new HowToScene();
 		m_exploreScene = new ExploreScene(m_player, m_dungeon, m_wordList);
+		m_gameOverScene = new GameOverScene();
 
 		System.out.println(Instance);
 		
@@ -84,6 +87,31 @@ public class WordWizard extends JFrame {
 		//StartBattleScene(new Enemy("Images/Player.png", m_currentRoom, 1), 0);
 
 		GameLoop();
+	}
+	
+	/**
+	 * Resets the game after a game over
+	 */
+	public void ResetGame()
+	{
+		m_dictionary = new Dictionary();
+		m_dungeon = new Dungeon(m_dictionary.getLevelWords(1));
+		
+		WordList tempWL = new WordList();
+		
+		for(Words w2 : m_dictionary.getStarter().getKnown()) {
+			tempWL.addToKnown(w2);
+		}
+		m_wordList = m_dictionary.getStarter();
+
+		m_currentRoom = m_dungeon.generate(NUM_ROOMS);
+		m_player = new Player(m_currentRoom);
+		m_player.setWordList(tempWL);
+		m_player.SetPosition(m_dungeon.getCurrentRoom().GetPlayerStartX(),
+				m_dungeon.getCurrentRoom().GetPlayerStartY());
+		m_player.name = "Young Wizard";
+		
+		m_exploreScene = new ExploreScene(m_player, m_dungeon, m_wordList);
 	}
 
 	/**
@@ -108,6 +136,9 @@ public class WordWizard extends JFrame {
 			if (m_howToScene != null)
 				m_howToScene.paint(g);
 			break;
+		case GameOver:
+			if (m_gameOverScene != null)
+				m_gameOverScene.paint(g);
 		default:
 			// Shouldn't happen
 			break;
@@ -154,6 +185,11 @@ public class WordWizard extends JFrame {
 			case HowTo:
 				if (m_howToScene != null)
 					m_howToScene.Update();
+				break;
+			case GameOver:
+				if (m_gameOverScene != null)
+					m_gameOverScene.Update();
+				break;
 			default:
 				break;
 			}
@@ -195,6 +231,10 @@ public class WordWizard extends JFrame {
 			if (m_howToScene != null)
 				return m_howToScene;
 			break;
+		case GameOver:
+			if (m_gameOverScene != null)
+				return m_gameOverScene;
+			break;
 		default:
 			return null;
 		}
@@ -209,9 +249,11 @@ public class WordWizard extends JFrame {
 	public void SetGameState(GAME_STATE state)
 	{
 		m_gameState = state;
-		if (state == GAME_STATE.Explore)
+		m_exploreScene.ResetBattleTime();
+
+		if (state == GAME_STATE.GameOver)
 		{
-			m_exploreScene.ResetBattleTime();
+			ResetGame();
 		}
 	}
 	

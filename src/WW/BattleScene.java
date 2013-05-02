@@ -104,7 +104,7 @@ public class BattleScene extends GameScene {
 		{
 			// Lost
 			// Game Over
-			System.exit(0);
+			WordWizard.Instance.SetGameState(GAME_STATE.GameOver);
 			// TODO: Go to game over scene
 		}
 		
