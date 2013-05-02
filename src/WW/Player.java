@@ -18,6 +18,8 @@ public class Player extends Entity {
 	public int exp;
 	public int maxExp;
 	public int maxHealth;
+	
+	public WordList m_wordlist;
 
 	public File BattleImgFile;
 	public Image BattleImg;
@@ -36,6 +38,7 @@ public class Player extends Entity {
 		exp = 0;
 		maxExp = 100;
 		m_moved = false;
+		m_wordlist = new WordList();
 
 		try {
 			BattleImgFile = new File("Images/Player2.png");
@@ -45,6 +48,14 @@ public class Player extends Entity {
 		}
 	}
 
+	public void setWordList(WordList wl) {
+		m_wordlist = wl;
+	}
+	
+	public WordList getWordList() {
+		return m_wordlist;
+	}
+	
 	/**
 	 * Moves the player by an offset This deals with collisions with the level
 	 */

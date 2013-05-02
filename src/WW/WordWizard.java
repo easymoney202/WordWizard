@@ -47,6 +47,11 @@ public class WordWizard extends JFrame {
 		setLocationRelativeTo(null);
 		setVisible(true);
 		setResizable(false);
+		WordList tempWL = new WordList();
+		
+		for(Words w2 : m_dictionary.getStarter().getKnown()) {
+			tempWL.addToKnown(w2);
+		}
 		
 		m_wordList = m_dictionary.getStarter();
 
@@ -59,6 +64,7 @@ public class WordWizard extends JFrame {
 			}
 		}
 		m_player = new Player(m_currentRoom);
+		m_player.setWordList(tempWL);
 		m_player.SetPosition(m_dungeon.getCurrentRoom().GetPlayerStartX(),
 				m_dungeon.getCurrentRoom().GetPlayerStartY());
 		m_player.name = "Young Wizard";

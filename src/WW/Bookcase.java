@@ -20,6 +20,7 @@ public class Bookcase extends Interactable {
 	public void interact(Entity e){
 		WordWizard.Instance.GetExploreScene().SetStatusMsg("This is a book");
 		WordWizard.Instance.GetExploreScene().ShowBook("Magical Words",getBookString());
+		WordWizard.Instance.GetExploreScene().addToPlayerBook(book);
 		System.out.println("Hey this is a bookcase!");
 	}
 	

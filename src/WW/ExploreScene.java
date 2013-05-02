@@ -71,6 +71,10 @@ public class ExploreScene extends GameScene
 		}
 	}
 	
+	public void addToPlayerBook(Words w) {
+		m_player.getWordList().addToKnown(w);
+	}
+	
 	/**
 	 * Shows the book to the player
 	 * @param message
@@ -114,13 +118,13 @@ public class ExploreScene extends GameScene
 	
     public void ReadDict() {
     	//Make sure we don't get an array out of bounds error
-    	if(m_curpage+1 < m_wordList.getKnown().size())
+    	if(m_curpage+1 < m_player.getWordList().getKnown().size())
     		WordWizard.Instance.GetExploreScene().OpenDict("Known Words, page " + (m_curpage/2 +1), 
-    			new Bookcase(m_wordList.getKnown().get(m_curpage)).getBookString(),
-    			new Bookcase(m_wordList.getKnown().get(m_curpage+1)).getBookString());
+    			new Bookcase(m_player.getWordList().getKnown().get(m_curpage)).getBookString(),
+    			new Bookcase(m_player.getWordList().getKnown().get(m_curpage+1)).getBookString());
     	else
     		WordWizard.Instance.GetExploreScene().OpenDict("Known Words, page " + (m_curpage/2 +1), 
-        			new Bookcase(m_wordList.getKnown().get(m_curpage)).getBookString(),
+        			new Bookcase(m_player.getWordList().getKnown().get(m_curpage)).getBookString(),
         			" ");
     }
 	
@@ -253,7 +257,7 @@ public class ExploreScene extends GameScene
 		
 		else if (e.getKeyCode() == KeyEvent.VK_N) {
 			if(m_showDict) {
-				if(m_curpage+2 < m_wordList.getKnown().size())
+				if(m_curpage+2 < m_player.getWordList().getKnown().size())
 					m_curpage = m_curpage + 2;
 				else
 					m_curpage = 0;
