@@ -86,7 +86,7 @@ public class BattleScene extends GameScene {
 		m_gameList = new ArrayList<String>();
 		m_enemyWord = m_problem.remove(0);
 		m_answer = m_problem.get(0);
-		
+		m_selection = 0;
 		// Randomize the options
 		while (!m_problem.isEmpty())
 		{
