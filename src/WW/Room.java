@@ -165,20 +165,20 @@ public class Room {
 			for (int y = 0; y < MAP_Y_SIZE; y++) {
 				Integer numadjbooks = checkSurroundings(x, y, mytiles, Bookcase.class.toString());
 				Integer numadjwalls = checkSurroundings(x, y, mytiles, Wall.class.toString());
-
+				
 				boolean bookcase = (0 == new Random().nextInt(randomChanceBook));
 				boolean wall = (0 == new Random().nextInt(randomChanceWall));
 				if ((x == MAP_X_SIZE - 1 || x == 0) || (y == MAP_Y_SIZE - 1 || y == 0)) {
 					mytiles[x][y] = new Wall();
+				} else if(npc && numadjbooks == 0 && numadjwalls < 3){
+					mytiles[x][y] = new NPC("Venture onward young adventurer!", "You must make haste!");
+					npc = false;
 				} else if (bookcase && bookcaselist.size() > 0 && numadjbooks < 1) {
 					Bookcase bk = bookcaselist.remove(new Random().nextInt(bookcaselist.size()));
 					mytiles[x][y] = bk;
 				} else if (wall && numadjwalls < 2) {
 					mytiles[x][y] = new Wall();
-				} else if(npc){
-					mytiles[x][y] = new NPC("Touch me baby one more time!", "Too hard man, you are hurting me!");
-					npc = false;
-				}else {
+				} else {
 					mytiles[x][y] = new Ground();
 				}
 			}
