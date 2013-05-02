@@ -20,10 +20,16 @@ public class Door extends Interactable {
 		this();
 		room1 = r1;
 		room2 = r2;
+		
 	}
-
+	
+	
 	@Override
 	public void interact(Entity e) {
 		WordWizard.Instance.GetExploreScene().SetStatusMsg("This is a door.");
+		if(e.getRoom().equals(room1)){
+			e.travel(room2);
+		} else if(e.getRoom().equals(room2)){
+			e.travel(room1);		}
 	}
 }

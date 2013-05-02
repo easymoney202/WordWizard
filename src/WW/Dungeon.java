@@ -3,6 +3,8 @@ package WW;
 import java.util.ArrayList;
 import java.util.Random;
 
+import WW.Room.Direction;
+
 /**
  * Dungeon will hold a number of Room objects to form the full dungeon
  * 
@@ -68,10 +70,15 @@ public class Dungeon {
 		//               [ ] [ ] [ ] [ ]
 		//                   [ ]     [ ]
 		//                   [*]
-		
-		for(int a = 0; a < rooms.size(); a++){
-			
-			System.out.println("Room: " + rooms.get(a));
+		//rooms.get(0).addDoor(rooms.get(1), Direction.EAST);
+		//rooms.get(1).addDoor(rooms.get(0), Direction.WEST);
+		for(int a = 0; a < rooms.size() - 1; a++){
+			Direction dir1 = Direction.random();
+			Direction dir2 = Direction.getOpposite(dir1);
+			if(rooms.get(a).canAddDoor(dir1) && rooms.get(a+1).canAddDoor(dir2)){
+				rooms.get(a).addDoor(rooms.get(a+1), dir1);
+				rooms.get(a+1).addDoor(rooms.get(a), dir2);
+			}
 		}
 	}
 

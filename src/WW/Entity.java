@@ -33,6 +33,14 @@ public class Entity extends RoomObject {
 		m_y = y;
 	}
 
+	public Room getRoom(){
+		return myroom;
+	}
+	
+	public void travel(Room newroom){
+		myroom = newroom;
+	}
+	
 	/**
 	 * Determines amount of damage player deals on a strike
 	 * 

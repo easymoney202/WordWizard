@@ -14,16 +14,41 @@ import java.util.Random;
  */
 public class Room {
 
-	Integer roomid;
-	Enemy anenemy;
-	Boolean m_init = false;
-	Integer player_startX, player_startY;
-	ArrayList<Words> roomwords;
-	ArrayList<Bookcase> bookcaselist;
-	NPC oldman;
-	int num_bookcases;
+	protected Integer roomid;
+	protected Enemy anenemy;
+	protected Boolean m_init = false;
+	protected Integer player_startX, player_startY;
+	protected ArrayList<Words> roomwords;
+	protected ArrayList<Bookcase> bookcaselist;
+	protected NPC oldman;
+	protected int num_bookcases;
 
-	RoomObject tiles[][];
+	protected boolean hasdoorN = false;
+	protected boolean hasdoorS = false;
+	protected boolean hasdoorE = false;
+	protected boolean hasdoorW = false;
+
+	public boolean hasDoorN() {
+		return hasdoorN;
+	}
+
+	public boolean hasDoorS() {
+		return hasdoorS;
+	}
+
+	public boolean hasDoorE() {
+		return hasdoorE;
+	}
+
+	public boolean hasDoorW() {
+		return hasdoorW;
+	}
+
+	protected RoomObject tiles[][];
+
+	public RoomObject[][] getTiles() {
+		return tiles;
+	}
 
 	public static Integer TILE_SIZE = 32; // Tile size in pixels
 	public static Integer MAP_X_SIZE = 12; // X Grid size
@@ -150,6 +175,91 @@ public class Room {
 		}
 	}
 
+	public boolean canAddDoor(Direction dir) {
+		boolean trytoadd = false;
+		switch (dir) {
+		case NORTH:
+			trytoadd = !hasdoorN;
+			break;
+		case SOUTH:
+			trytoadd = !hasdoorS;
+			break;
+		case EAST:
+			trytoadd = !hasdoorE;
+			break;
+		case WEST:
+			trytoadd = !hasdoorW;
+			break;
+		default:
+			break;
+		}
+		return trytoadd;
+	}
+
+	public boolean addDoor(Room roomto, Direction dir) {
+		boolean trytoadd = true;
+
+		if (!canAddDoor(dir)) {
+			return false;
+		}
+
+		if (dir == Direction.EAST) {
+			for (int x = 1; x < MAP_X_SIZE - 1; x++) {
+				Integer surroundingwalls = checkSurroundings(x, 0, getTiles(), Wall.class.toString());
+				Integer surroundingbooks = checkSurroundings(x, 0, getTiles(), Bookcase.class.toString());
+				Integer surroundingnpcs = checkSurroundings(x, 0, getTiles(), NPC.class.toString());
+				Integer surroundingdoors = checkSurroundings(x, 0, getTiles(), Door.class.toString());
+
+				if (surroundingwalls < 3 && surroundingbooks == 0 && surroundingnpcs == 0 && surroundingdoors == 0) {
+					getTiles()[x][0] = new Door(this, roomto);
+					hasdoorE = true;
+					break;
+				}
+			}
+		} else if (dir == Direction.WEST) {
+			for (int x = MAP_X_SIZE - 2; x > 1; x--) {
+				Integer surroundingwalls = checkSurroundings(x, MAP_Y_SIZE - 1, getTiles(), Wall.class.toString());
+				Integer surroundingbooks = checkSurroundings(x, MAP_Y_SIZE - 1, getTiles(), Bookcase.class.toString());
+				Integer surroundingnpcs = checkSurroundings(x, MAP_Y_SIZE - 1, getTiles(), NPC.class.toString());
+				Integer surroundingdoors = checkSurroundings(x, MAP_Y_SIZE - 1, getTiles(), Door.class.toString());
+
+				if (surroundingwalls < 3 && surroundingbooks == 0 && surroundingnpcs == 0 && surroundingdoors == 0) {
+					getTiles()[x][MAP_Y_SIZE - 1] = new Door(this, roomto);
+					hasdoorW = true;
+					break;
+				}
+			}
+		} else if (dir == Direction.NORTH) {
+			for (int y = 1; y < MAP_Y_SIZE - 1; y++) {
+				Integer surroundingwalls = checkSurroundings(0, y, getTiles(), Wall.class.toString());
+				Integer surroundingbooks = checkSurroundings(0, y, getTiles(), Bookcase.class.toString());
+				Integer surroundingnpcs = checkSurroundings(0, y, getTiles(), NPC.class.toString());
+				Integer surroundingdoors = checkSurroundings(0, y, getTiles(), Door.class.toString());
+
+				if (surroundingwalls < 3 && surroundingbooks == 0 && surroundingnpcs == 0 && surroundingdoors == 0) {
+					getTiles()[0][y] = new Door(this, roomto);
+					hasdoorN = true;
+					break;
+				}
+			}
+		} else if (dir == Direction.SOUTH) {
+			for (int y = MAP_Y_SIZE - 2; y > 1; y--) {
+				Integer surroundingwalls = checkSurroundings(MAP_X_SIZE - 1, y, getTiles(), Wall.class.toString());
+				Integer surroundingbooks = checkSurroundings(MAP_X_SIZE - 1, y, getTiles(), Bookcase.class.toString());
+				Integer surroundingnpcs = checkSurroundings(MAP_X_SIZE - 1, y, getTiles(), NPC.class.toString());
+				Integer surroundingdoors = checkSurroundings(MAP_X_SIZE - 1, y, getTiles(), Door.class.toString());
+
+				if (surroundingwalls < 3 && surroundingbooks == 0 && surroundingnpcs == 0 && surroundingdoors == 0) {
+					getTiles()[MAP_X_SIZE - 1][y] = new Door(this, roomto);
+					hasdoorS = true;
+					break;
+				}
+			}
+		}
+
+		return true;
+	}
+
 	public RoomObject[][] generate() {
 		Integer randomChanceWall = 8;
 		Integer randomChanceBook = 6;
@@ -165,12 +275,12 @@ public class Room {
 			for (int y = 0; y < MAP_Y_SIZE; y++) {
 				Integer numadjbooks = checkSurroundings(x, y, mytiles, Bookcase.class.toString());
 				Integer numadjwalls = checkSurroundings(x, y, mytiles, Wall.class.toString());
-				
+
 				boolean bookcase = (0 == new Random().nextInt(randomChanceBook));
 				boolean wall = (0 == new Random().nextInt(randomChanceWall));
 				if ((x == MAP_X_SIZE - 1 || x == 0) || (y == MAP_Y_SIZE - 1 || y == 0)) {
 					mytiles[x][y] = new Wall();
-				} else if(npc && numadjbooks == 0 && numadjwalls < 3){
+				} else if (npc && numadjbooks == 0 && numadjwalls < 3) {
 					mytiles[x][y] = new NPC("Venture onward young adventurer!", "You must make haste!");
 					npc = false;
 				} else if (bookcase && bookcaselist.size() > 0 && numadjbooks < 1) {
@@ -199,24 +309,24 @@ public class Room {
 
 	// See if something around this area is of the classname specified
 	public Integer checkSurroundings(int x, int y, RoomObject[][] mytiles, String classname) {
-		Integer height = mytiles[0].length;
-		Integer width = mytiles.length;
+		Integer height = mytiles[0].length - 1;
+		Integer width = mytiles.length - 1;
 		Integer retvalue = 0;
-		if (y - 1 > 0 && mytiles[x][y - 1].getClass().toString().equals(classname))
+		if ((y - 1 >= 0) && mytiles[x][y - 1].getClass().toString().equals(classname))
 			retvalue++;
-		if (y + 1 < height && mytiles[x][y + 1].getClass().toString().equals(classname))
+		if ((y + 1 <= height) && mytiles[x][y + 1].getClass().toString().equals(classname))
 			retvalue++;
-		if (x + 1 < width && mytiles[x + 1][y].getClass().toString().equals(classname))
+		if (x + 1 <= width && mytiles[x + 1][y].getClass().toString().equals(classname))
 			retvalue++;
-		if (x + 1 < width && y + 1 < height && mytiles[x + 1][y + 1].getClass().toString().equals(classname))
+		if (x + 1 <= width && y + 1 <= height && mytiles[x + 1][y + 1].getClass().toString().equals(classname))
 			retvalue++;
-		if (x + 1 < width && y - 1 > 0 && mytiles[x + 1][y - 1].getClass().toString().equals(classname))
+		if (x + 1 <= width && y - 1 >= 0 && mytiles[x + 1][y - 1].getClass().toString().equals(classname))
 			retvalue++;
-		if (x - 1 > 0 && mytiles[x - 1][y].getClass().toString().equals(classname))
+		if (x - 1 >= 0 && mytiles[x - 1][y].getClass().toString().equals(classname))
 			retvalue++;
-		if (x - 1 > 0 && y - 1 > 0 && mytiles[x - 1][y - 1].getClass().toString().equals(classname))
+		if (x - 1 >= 0 && y - 1 >= 0 && mytiles[x - 1][y - 1].getClass().toString().equals(classname))
 			retvalue++;
-		if (x - 1 > 0 && y + 1 < height && mytiles[x - 1][y + 1].getClass().toString().equals(classname))
+		if (x - 1 >= 0 && y + 1 <= height && mytiles[x - 1][y + 1].getClass().toString().equals(classname))
 			retvalue++;
 		return retvalue;
 	}
@@ -236,6 +346,26 @@ public class Room {
 			default:
 				return null;
 			}
+		}
+
+		public static Direction getOpposite(Direction dir) {
+			switch (dir) {
+			case NORTH:
+				return SOUTH;
+			case EAST:
+				return WEST;
+			case WEST:
+				return EAST;
+			case SOUTH:
+				return NORTH;
+			default:
+				return null;
+			}
+		}
+
+		public static Direction random() {
+			Integer num = new Random().nextInt(4);
+			return fromInteger(num);
 		}
 	}
 }

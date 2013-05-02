@@ -75,7 +75,7 @@ public class WordWizard extends JFrame {
 		
 		m_menuScene = new MenuScene();
 		m_howToScene = new HowToScene();
-		m_exploreScene = new ExploreScene(m_player, m_currentRoom, m_dungeon, m_wordList);
+		m_exploreScene = new ExploreScene(m_player, m_dungeon, m_wordList);
 
 		System.out.println(Instance);
 		
@@ -94,7 +94,7 @@ public class WordWizard extends JFrame {
 		{
 		case Menu:
 			if (m_menuScene != null)
-				m_menuScene.paint(g);
+ 				m_menuScene.paint(g);
 			break;
 		case Explore:
 			if (m_exploreScene != null)
